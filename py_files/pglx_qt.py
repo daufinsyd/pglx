@@ -6,12 +6,21 @@ import readline
 import linecache # lis les lignes spécifiques de fichier vs pas de global variables dans les class
 import time
 import getpass
-
+import re
+import string
+import
 path_to_pglx = "/home/Pompiers/Public/Rapports/Pompier-GLX" ### Sert unsiquement pour les fichiers py et images ###
 path_to_vars = "/home/Pompiers/Public/.tmp" ### sert pour toutes les vars du rapport et des rapports en gnal ###
 path_to_rinter = "/home/Pompiers/Public/Rapports/Interventions" ### sert uniquement pour l'écriture du rapport ###
+path_to_rfma = "/home/Pompiers/Public/Rapports/FMA"### sert uniquement pour l'écriture du rapport ###
+os.chdir(path_to_vars)
+if os.path.isfile(".PathToRInter"):
+    path_to_rinter = linecache.getline('.PathToRInter', 1)
+if os.path.isfile(".PathToRFma"):
+    path_to_rfma = linecache.getline('.PathToRFma', 1)
 b = 4
 b2 = 2
+b3 = 1
 
 class Ui_PompierGLX(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -19,7 +28,8 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.suite()
 
     def suite(self):
-        global PompierGLX
+        global PompierGLX, self_ui_inter
+        self_ui_inter = self
         PompierGLX = self
         PompierGLX.setObjectName("PompierGLX")
         PompierGLX.resize(800, 600)
@@ -34,7 +44,7 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.label.setGeometry(QtCore.QRect(130, 0, 381, 21))
         self.label.setObjectName("label")
         self.name = QtWidgets.QLabel(self.frame)
-        self.name.setGeometry(QtCore.QRect(530, 0, 67, 21))
+        self.name.setGeometry(QtCore.QRect(530, 0, 167, 21))
         self.name.setObjectName("name")
         self.new_rapportInter = QtWidgets.QPushButton(self.frame)
         self.new_rapportInter.setGeometry(QtCore.QRect(30, 70, 241, 31))
@@ -93,12 +103,20 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_7.clicked.connect(lambda selfi = self :fonctions_self.show_credits(self))
         self.pushButton_8.clicked.connect(lambda selfi = self :fonctions_self.show_license(self))
         self.pushButton_4.clicked.connect(lambda selfi = self :fonctions_self.createInter(self))
+        self.pushButton_5.clicked.connect(lambda selfi = self :fonctions_self.create_own(self))
+        self.pushButton_9.clicked.connect(lambda selfi = self :fonctions_self.administration(self))
 
     def retranslateUi(self, PompierGLX):
+        file = path_to_vars + '/.centreInter'
+        if os.path.isfile(file):
+            name_2 = linecache.getline(file, 1)
+        else:
+            name_2 = "du Centre d'Icendie et de Secours"
+        USER = getpass.getuser()
         _translate = QtCore.QCoreApplication.translate
         PompierGLX.setWindowTitle(_translate("PompierGLX", "Pompier-GLX"))
-        self.label.setText(_translate("PompierGLX", "Bienvenue dans le Gestionnaire des Sapeurs-Pompiers du "))
-        self.name.setText(_translate("PompierGLX", "TextLabel"))
+        self.label.setText(_translate("PompierGLX", "Bienvenue dans le Gestionnaire des Sapeurs-Pompiers: "))
+        self.name.setText(_translate("PompierGLX", name_2))
         self.new_rapportInter.setText(_translate("PompierGLX", "Rédiger un rapport d\'Intervention"))
         self.pushButton_2.setText(_translate("PompierGLX", "Rédiger un rapport de FMA"))
         self.pushButton_3.setText(_translate("PompierGLX", "Rédiger un rapport de Casernement"))
@@ -108,8 +126,8 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_7.setText(_translate("PompierGLX", "Crédits"))
         self.pushButton_8.setText(_translate("PompierGLX", "License"))
         self.pushButton_9.setText(_translate("PompierGLX", "Administration"))
-        self.label_2.setText(_translate("PompierGLX", "Vous êtes connecté en tant que"))
-        self.user.setText(_translate("PompierGLX", "TextLabel"))
+        self.label_2.setText(_translate("PompierGLX", "Vous êtes connecté en tant que:"))
+        self.user.setText(_translate("PompierGLX", USER))
         self.pushButton_10.setText(_translate("PompierGLX", "Se connecter sous une autre session"))
         self.pushButton_11.setText(_translate("PompierGLX", "Préférences"))
 
@@ -330,62 +348,62 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.page_5 = QtWidgets.QWidget()
         self.page_5.setGeometry(QtCore.QRect(0, 0, 661, 135))
         self.page_5.setObjectName("page_5")
-        self.gridLayout_6 = QtWidgets.QGridLayout(self.page_5)
-        self.gridLayout_6.setObjectName("gridLayout_6")
+        self.gridLayout_5 = QtWidgets.QGridLayout(self.page_5)
+        self.gridLayout_5.setObjectName("gridLayout_5")
         self.spinBox_7 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_7.setObjectName("spinBox_7")
-        self.gridLayout_6.addWidget(self.spinBox_7, 3, 5, 1, 1)
+        self.gridLayout_5.addWidget(self.spinBox_7, 3, 5, 1, 1)
         self.label_19 = QtWidgets.QLabel(self.page_5)
         self.label_19.setObjectName("label_19")
-        self.gridLayout_6.addWidget(self.label_19, 0, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.label_19, 0, 0, 1, 1)
         self.lineEdit_5 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_5.setObjectName("lineEdit_5")
-        self.gridLayout_6.addWidget(self.lineEdit_5, 0, 7, 1, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_5, 0, 7, 1, 1)
         self.label_20 = QtWidgets.QLabel(self.page_5)
         self.label_20.setObjectName("label_20")
-        self.gridLayout_6.addWidget(self.label_20, 0, 4, 1, 1)
+        self.gridLayout_5.addWidget(self.label_20, 0, 4, 1, 1)
         self.spinBox_3 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_3.setObjectName("spinBox_3")
-        self.gridLayout_6.addWidget(self.spinBox_3, 0, 5, 1, 1)
+        self.gridLayout_5.addWidget(self.spinBox_3, 0, 5, 1, 1)
         self.label_21 = QtWidgets.QLabel(self.page_5)
         self.label_21.setObjectName("label_21")
-        self.gridLayout_6.addWidget(self.label_21, 1, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.label_21, 1, 0, 1, 1)
         self.lineEdit_8 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_8.setObjectName("lineEdit_8")
-        self.gridLayout_6.addWidget(self.lineEdit_8, 3, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_8, 3, 2, 1, 1)
         self.spinBox_4 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_4.setObjectName("spinBox_4")
-        self.gridLayout_6.addWidget(self.spinBox_4, 1, 1, 2, 1)
+        self.gridLayout_5.addWidget(self.spinBox_4, 1, 1, 2, 1)
         self.label_22 = QtWidgets.QLabel(self.page_5)
         self.label_22.setObjectName("label_22")
-        self.gridLayout_6.addWidget(self.label_22, 1, 4, 1, 1)
+        self.gridLayout_5.addWidget(self.label_22, 1, 4, 1, 1)
         self.spinBox_5 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_5.setObjectName("spinBox_5")
-        self.gridLayout_6.addWidget(self.spinBox_5, 1, 5, 2, 1)
+        self.gridLayout_5.addWidget(self.spinBox_5, 1, 5, 2, 1)
         self.lineEdit_7 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_7.setObjectName("lineEdit_7")
-        self.gridLayout_6.addWidget(self.lineEdit_7, 1, 7, 2, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_7, 1, 7, 2, 1)
         self.lineEdit_6 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_6.setObjectName("lineEdit_6")
-        self.gridLayout_6.addWidget(self.lineEdit_6, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_6, 1, 2, 1, 1)
         self.spinBox_6 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_6.setObjectName("spinBox_6")
-        self.gridLayout_6.addWidget(self.spinBox_6, 3, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.spinBox_6, 3, 1, 1, 1)
         self.label_24 = QtWidgets.QLabel(self.page_5)
         self.label_24.setObjectName("label_24")
-        self.gridLayout_6.addWidget(self.label_24, 3, 4, 1, 1)
+        self.gridLayout_5.addWidget(self.label_24, 3, 4, 1, 1)
         self.lineEdit_4 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout_6.addWidget(self.lineEdit_4, 0, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_4, 0, 2, 1, 1)
         self.label_23 = QtWidgets.QLabel(self.page_5)
         self.label_23.setObjectName("label_23")
-        self.gridLayout_6.addWidget(self.label_23, 3, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.label_23, 3, 0, 1, 1)
         self.spinBox_2 = QtWidgets.QSpinBox(self.page_5)
         self.spinBox_2.setObjectName("spinBox_2")
-        self.gridLayout_6.addWidget(self.spinBox_2, 0, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.spinBox_2, 0, 1, 1, 1)
         self.lineEdit_9 = QtWidgets.QLineEdit(self.page_5)
         self.lineEdit_9.setObjectName("lineEdit_9")
-        self.gridLayout_6.addWidget(self.lineEdit_9, 3, 7, 1, 1)
+        self.gridLayout_5.addWidget(self.lineEdit_9, 3, 7, 1, 1)
         self.toolBox_2.addItem(self.page_5, "")
         self.page_6 = QtWidgets.QWidget()
         self.page_6.setGeometry(QtCore.QRect(0, 0, 710, 129))
@@ -508,9 +526,6 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.toolBox_2.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(Ui_rapportInter)
 
-        #for i in range(0, 4): #cration des combobox svp sll et caserne
-
-
 
         self.spinBox.setMaximum(500000)
         self.spinBox.valueChanged['int'].connect(lambda value = self.spinBox, name="nCodis": fonctions_self.on_spinBox_changed(self, value, name))
@@ -591,8 +606,6 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.pushButton.clicked.connect(lambda self_new_rapport = self : fonctions.rediger(self_new_rapport))
         self.pushButton_2.clicked.connect(lambda self_win_to_show = self : fonctions_self.close_window(self))
 
-
-
     def retranslateUi(self, Ui_rapportInter):
         _translate = QtCore.QCoreApplication.translate
 
@@ -656,6 +669,9 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.pushButton.setText(_translate("MainWindow", "Valider"))
         self.pushButton_2.setText(_translate("MainWindow", "Annuler"))
 
+    def tmp(self):
+        print('rmp')
+
 
 class Ui_create_inter(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -683,7 +699,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 760, 533))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 747, 549))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_5.setObjectName("gridLayout_5")
@@ -694,12 +710,12 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.lineEdit.setObjectName("lineEdit")
         self.gridLayout_5.addWidget(self.lineEdit, 0, 2, 1, 3)
         spacerItem = QtWidgets.QSpacerItem(137, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem, 0, 5, 1, 3)
+        self.gridLayout_5.addItem(spacerItem, 0, 5, 1, 4)
         self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.scrollAreaWidgetContents)
         self.dateTimeEdit.setObjectName("dateTimeEdit")
-        self.gridLayout_5.addWidget(self.dateTimeEdit, 0, 8, 1, 2)
+        self.gridLayout_5.addWidget(self.dateTimeEdit, 0, 9, 1, 2)
         spacerItem1 = QtWidgets.QSpacerItem(124, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem1, 0, 10, 1, 1)
+        self.gridLayout_5.addItem(spacerItem1, 0, 11, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName("label_2")
         self.gridLayout_5.addWidget(self.label_2, 1, 0, 1, 1)
@@ -707,29 +723,29 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.spinBox.setObjectName("spinBox")
         self.gridLayout_5.addWidget(self.spinBox, 1, 1, 1, 2)
         spacerItem2 = QtWidgets.QSpacerItem(539, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem2, 1, 3, 1, 8)
+        self.gridLayout_5.addItem(spacerItem2, 1, 3, 1, 9)
         self.line_2 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
-        self.gridLayout_5.addWidget(self.line_2, 2, 0, 1, 11)
+        self.gridLayout_5.addWidget(self.line_2, 2, 0, 1, 12)
         self.label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName("label_3")
         self.gridLayout_5.addWidget(self.label_3, 3, 0, 1, 1)
         self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_5.addWidget(self.lineEdit_2, 3, 1, 1, 10)
+        self.gridLayout_5.addWidget(self.lineEdit_2, 3, 1, 1, 4)
         self.label_4 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_4.setObjectName("label_4")
         self.gridLayout_5.addWidget(self.label_4, 4, 0, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout_5.addWidget(self.lineEdit_3, 4, 1, 1, 10)
+        self.gridLayout_5.addWidget(self.lineEdit_3, 4, 1, 1, 4)
         self.line = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.gridLayout_5.addWidget(self.line, 5, 0, 1, 11)
+        self.gridLayout_5.addWidget(self.line, 5, 0, 1, 12)
         self.groupBox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox.setObjectName("groupBox")
         self.gridLayout = QtWidgets.QGridLayout(self.groupBox)
@@ -740,15 +756,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.label_7 = QtWidgets.QLabel(self.groupBox)
         self.label_7.setObjectName("label_7")
         self.gridLayout.addWidget(self.label_7, 0, 1, 1, 1)
-        for i in range(0, b):
-            self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)
-            self.lineEdit_4.setObjectName("lineEdit_4-" + str(i))
-            self.gridLayout.addWidget(self.lineEdit_4, 1+i, 0, 1, 1)
-            self.lineEdit_5 = QtWidgets.QLineEdit(self.groupBox)
-            self.lineEdit_5.setObjectName("lineEdit_5-" + str(i))
-            self.gridLayout.addWidget(self.lineEdit_5, 1+i, 1, 1, 1)
-            self.lineEdit_4.textChanged.connect(lambda value = self.lineEdit_4 , name = "fonctionSp-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
-            self.lineEdit_5.textChanged.connect(lambda value = self.lineEdit_5 , name = "sp-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+
 
         self.spinBox_2 = QtWidgets.QSpinBox(self.groupBox)
         self.spinBox_2.setObjectName("spinBox_2")
@@ -765,20 +773,12 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.label_10 = QtWidgets.QLabel(self.groupBox_2)
         self.label_10.setObjectName("label_10")
         self.gridLayout_4.addWidget(self.label_10, 0, 1, 1, 1)
-        for i in range(0, b2):
-            self.lineEdit_6 = QtWidgets.QLineEdit(self.groupBox_2)
-            self.lineEdit_6.setObjectName("lineEdit_6-" + str(i))
-            self.gridLayout_4.addWidget(self.lineEdit_6, 1+i, 0, 1, 1)
-            self.lineEdit_7 = QtWidgets.QLineEdit(self.groupBox_2)
-            self.lineEdit_7.setObjectName("lineEdit_7-" + str(i))
-            self.gridLayout_4.addWidget(self.lineEdit_7, 1+i, 1, 1, 1)
-            self.lineEdit_6.textChanged.connect(lambda value = self.lineEdit_6 , name = "engin-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
-            self.lineEdit_7.textChanged.connect(lambda value = self.lineEdit_7 , name = "fonctionEngin-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+
         self.spinBox_3 = QtWidgets.QSpinBox(self.groupBox_2)
         self.spinBox_3.setObjectName("spinBox_3")
         self.gridLayout_4.addWidget(self.spinBox_3, 1, 2, 1, 1)
         self.spinBox_3.setValue(b2)
-        self.gridLayout_5.addWidget(self.groupBox_2, 6, 7, 2, 4)
+        self.gridLayout_5.addWidget(self.groupBox_2, 6, 7, 2, 5)
         self.line_5 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.line_5.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -788,7 +788,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
-        self.gridLayout_5.addWidget(self.line_3, 8, 0, 1, 11)
+        self.gridLayout_5.addWidget(self.line_3, 8, 0, 1, 12)
         self.label_11 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_11.setObjectName("label_11")
         self.gridLayout_5.addWidget(self.label_11, 9, 0, 1, 1)
@@ -796,7 +796,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.gridLayout_5.addWidget(self.lineEdit_8, 9, 1, 1, 3)
         spacerItem3 = QtWidgets.QSpacerItem(492, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem3, 9, 4, 1, 7)
+        self.gridLayout_5.addItem(spacerItem3, 9, 4, 1, 8)
         self.label_12 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_12.setObjectName("label_12")
         self.gridLayout_5.addWidget(self.label_12, 10, 0, 1, 1)
@@ -804,7 +804,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.lineEdit_9.setObjectName("lineEdit_9")
         self.gridLayout_5.addWidget(self.lineEdit_9, 10, 1, 1, 3)
         spacerItem4 = QtWidgets.QSpacerItem(492, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem4, 10, 4, 1, 7)
+        self.gridLayout_5.addItem(spacerItem4, 10, 4, 1, 8)
         self.label_13 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_13.setObjectName("label_13")
         self.gridLayout_5.addWidget(self.label_13, 11, 0, 1, 1)
@@ -812,18 +812,38 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.lineEdit_10.setObjectName("lineEdit_10")
         self.gridLayout_5.addWidget(self.lineEdit_10, 11, 1, 1, 4)
         spacerItem5 = QtWidgets.QSpacerItem(446, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem5, 11, 5, 1, 6)
+        self.gridLayout_5.addItem(spacerItem5, 11, 5, 1, 7)
         self.line_4 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_4.setObjectName("line_4")
-        self.gridLayout_5.addWidget(self.line_4, 12, 0, 2, 11)
+        self.gridLayout_5.addWidget(self.line_4, 12, 0, 1, 12)
+        spacerItem6 = QtWidgets.QSpacerItem(148, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_5.addItem(spacerItem6, 13, 8, 2, 2)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 87, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_5.addItem(spacerItem7, 13, 11, 1, 1)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.scrollAreaWidgetContents)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout_5.addWidget(self.buttonBox, 13, 9, 2, 2)
-        spacerItem6 = QtWidgets.QSpacerItem(518, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_5.addItem(spacerItem6, 14, 0, 1, 9)
+        self.gridLayout_5.addWidget(self.buttonBox, 14, 10, 2, 2)
+        spacerItem8 = QtWidgets.QSpacerItem(518, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_5.addItem(spacerItem8, 15, 0, 1, 10)
+        self.groupBox_3 = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.gridLayout_7 = QtWidgets.QGridLayout(self.groupBox_3)
+        self.gridLayout_7.setObjectName("gridLayout_7")
+        self.label_5 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_7.addWidget(self.label_5, 0, 0, 1, 1)
+        self.label_8 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_8.setObjectName("label_8")
+        self.gridLayout_7.addWidget(self.label_8, 0, 1, 1, 1)
+
+        self.spinBox_4 = QtWidgets.QSpinBox(self.groupBox_3)
+        self.spinBox_4.setObjectName("spinBox_4")
+        self.gridLayout_7.addWidget(self.spinBox_4, 1, 2, 1, 1)
+        self.spinBox_4.setValue(b3)
+        self.gridLayout_5.addWidget(self.groupBox_3, 13, 0, 2, 8)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_3.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.frame, 0, 0, 1, 1)
@@ -833,12 +853,44 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.menubar.setObjectName("menubar")
         Ui_create_inter.setMenuBar(self.menubar)
 
+        for i in range(0, b):
+            self.lineEdit_4 = QtWidgets.QLineEdit(self.groupBox)
+            self.lineEdit_4.setObjectName("lineEdit_4-" + str(i))
+            self.gridLayout.addWidget(self.lineEdit_4, 1+i, 0, 1, 1)
+            self.lineEdit_5 = QtWidgets.QLineEdit(self.groupBox)
+            self.lineEdit_5.setObjectName("lineEdit_5-" + str(i))
+            self.gridLayout.addWidget(self.lineEdit_5, 1+i, 1, 1, 1)
+            self.lineEdit_4.textChanged.connect(lambda value = self.lineEdit_4 , name = "fonctionSp-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+            self.lineEdit_5.textChanged.connect(lambda value = self.lineEdit_5 , name = "sp-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+
+        for i in range(0, b2):
+            self.lineEdit_6 = QtWidgets.QLineEdit(self.groupBox_2)
+            self.lineEdit_6.setObjectName("lineEdit_6-" + str(i))
+            self.gridLayout_4.addWidget(self.lineEdit_6, 1+i, 0, 1, 1)
+            self.lineEdit_7 = QtWidgets.QLineEdit(self.groupBox_2)
+            self.lineEdit_7.setObjectName("lineEdit_7-" + str(i))
+            self.gridLayout_4.addWidget(self.lineEdit_7, 1+i, 1, 1, 1)
+            self.lineEdit_6.textChanged.connect(lambda value = self.lineEdit_6 , name = "engin-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+            self.lineEdit_7.textChanged.connect(lambda value = self.lineEdit_7 , name = "fonctionEngin-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+
+        for i in range(0, b3):
+            self.lineEdit_11 = QtWidgets.QLineEdit(self.groupBox_3)
+            self.lineEdit_11.setObjectName("lineEdit_11-"+ str(i))
+            self.gridLayout_7.addWidget(self.lineEdit_11, 1+i, 0, 1, 1)
+            self.lineEdit_12 = QtWidgets.QLineEdit(self.groupBox_3)
+            self.lineEdit_12.setObjectName("lineEdit_12-"+ str(i))
+            self.gridLayout_7.addWidget(self.lineEdit_12, 1+i, 1, 1, 1)
+            self.lineEdit_11.textChanged.connect(lambda value = self.lineEdit_11 , name = "enginRenfort-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+            self.lineEdit_12.textChanged.connect(lambda value = self.lineEdit_12 , name = "fonctionEnginRenfort-" + str(i): fonctions_self.on_lineEdit_changed(self, value, name))
+
         self.retranslateUi(Ui_create_inter)
         QtCore.QMetaObject.connectSlotsByName(Ui_create_inter)
 
         self.spinBox_2.valueChanged.connect(lambda value = self.spinBox_2 : fonctions_self.on_spinBox_2_changed(self, value))
         self.spinBox_3.valueChanged.connect(lambda value = self.spinBox_3 : fonctions_self.on_spinBox_3_changed(self, value))
+        self.spinBox_4.valueChanged.connect(lambda value = self.spinBox_4 : fonctions_self.on_spinBox_4_changed(self, value))
 
+        self.spinBox.setMaximum(800000)
         self.spinBox.valueChanged.connect(lambda value = self.spinBox, name = "nCodis" : fonctions_self.on_spinBox_changed(self, value, name))
 
         self.lineEdit.textChanged.connect(lambda value = self.lineEdit , name = "centreInter": fonctions_self.on_lineEdit_changed(self, value, name))
@@ -850,8 +902,8 @@ class Ui_create_inter(QtWidgets.QMainWindow):
 
         self.dateTimeEdit.dateTimeChanged.connect(lambda value = self.dateTimeEdit , name = "heure_appel": fonctions_self.on_dateTime_changed(self, value, name))
 
-        self.buttonBox.accepted.connect(fonctions.create_inter)
-        self.buttonBox.rejected.connect(Ui_create_inter.close)
+        self.buttonBox.accepted.connect(lambda selfi = self : fonctions.create_inter(selfi))
+        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi))
 
     def retranslateUi(self, Ui_create_inter):
         _translate = QtCore.QCoreApplication.translate
@@ -869,9 +921,194 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.label_11.setText(_translate("Ui_create_inter", "Demandeur"))
         self.label_12.setText(_translate("Ui_create_inter", "Téléphone"))
         self.label_13.setText(_translate("Ui_create_inter", "Adresse"))
+        self.groupBox_3.setTitle(_translate("Ui_create_inter", "Renforts"))
+        self.label_5.setText(_translate("Ui_create_inter", "Engin"))
+        self.label_8.setText(_translate("Ui_create_inter", "Fonction"))
 
 
+class Ui_create_own(QtWidgets.QMainWindow):
+    def __init__(self, parent=None):
+        super(Ui_create_own, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
 
+
+    def suite(self):
+        create_own = self
+        create_own.setObjectName("create_own")
+        create_own.resize(800, 600)
+        self.centralwidget = QtWidgets.QWidget(create_own)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.scrollArea = QtWidgets.QScrollArea(self.frame)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 760, 507))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.textEdit = QtWidgets.QTextEdit(self.scrollAreaWidgetContents)
+        self.textEdit.setObjectName("textEdit")
+        self.gridLayout_3.addWidget(self.textEdit, 0, 0, 1, 1)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        create_own.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(create_own)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 27))
+        self.menubar.setObjectName("menubar")
+        self.menuAnnuler = QtWidgets.QMenu(self.menubar)
+        self.menuAnnuler.setObjectName("menuAnnuler")
+        create_own.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(create_own)
+        self.statusbar.setObjectName("statusbar")
+        create_own.setStatusBar(self.statusbar)
+        self.actionQuitter = QtWidgets.QAction(create_own)
+        self.actionQuitter.setObjectName("actionQuitter")
+        self.actionEnregistrer = QtWidgets.QAction(create_own)
+        self.actionEnregistrer.setObjectName("actionEnregistrer")
+        self.actionOuvrir = QtWidgets.QAction(create_own)
+        self.actionOuvrir.setObjectName("actionOuvrir")
+        self.menuAnnuler.addAction(self.actionQuitter)
+        self.menuAnnuler.addSeparator()
+        self.menuAnnuler.addAction(self.actionEnregistrer)
+        self.menuAnnuler.addAction(self.actionOuvrir)
+        self.menubar.addAction(self.menuAnnuler.menuAction())
+
+        self.retranslateUi(create_own)
+        QtCore.QMetaObject.connectSlotsByName(create_own)
+
+        self.actionQuitter.triggered.connect(lambda selfi = self : fonctions_self.close_window(self))
+        self.actionEnregistrer.triggered.connect(lambda selfi = self : fonctions_self.save_to_file(self, ".ownInter"))
+        self.actionOuvrir.triggered.connect(lambda selfi = self : fonctions_self.load_to_file(self))
+        self.textEdit.textChanged.connect(lambda value = self.textEdit : fonctions_self.on_textEdit_changed(self, value, "ownInter"))
+
+    def retranslateUi(self, create_own):
+        _translate = QtCore.QCoreApplication.translate
+        create_own.setWindowTitle(_translate("create_own", "PGLX - Créer une feuille personnalisée"))
+        self.menuAnnuler.setTitle(_translate("create_own", "Menu"))
+        self.actionQuitter.setText(_translate("create_own", "Quitter"))
+        self.actionEnregistrer.setText(_translate("create_own", "Enregistrer"))
+        self.actionOuvrir.setText(_translate("create_own", "Ouvrir"))
+
+class Ui_Administration(QtWidgets.QMainWindow):
+    def __init__(self, parent=None):
+        super(Ui_Administration, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
+
+    def suite(self):
+        Administration = self
+        Administration.setObjectName("Administration")
+        Administration.resize(819, 407)
+        self.centralwidget = QtWidgets.QWidget(Administration)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.scrollArea = QtWidgets.QScrollArea(self.frame)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 779, 314))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        spacerItem = QtWidgets.QSpacerItem(254, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem, 0, 0, 1, 3)
+        self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName("label")
+        self.gridLayout_3.addWidget(self.label, 0, 3, 1, 2)
+        spacerItem1 = QtWidgets.QSpacerItem(302, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem1, 0, 5, 1, 4)
+        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_3.addWidget(self.label_2, 1, 0, 1, 1)
+        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_3.addWidget(self.lineEdit, 1, 1, 1, 3)
+        spacerItem2 = QtWidgets.QSpacerItem(322, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem2, 1, 4, 1, 3)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 110, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem3, 1, 7, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_3.addWidget(self.pushButton, 2, 0, 2, 2)
+        spacerItem4 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem4, 2, 2, 1, 7)
+        self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout_3.addWidget(self.pushButton_2, 4, 0, 2, 2)
+        spacerItem5 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem5, 4, 2, 1, 7)
+        self.pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_3.addWidget(self.pushButton_3, 6, 0, 2, 2)
+        spacerItem6 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem6, 6, 2, 1, 7)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 58, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem7, 8, 1, 1, 1)
+        spacerItem8 = QtWidgets.QSpacerItem(557, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem8, 9, 0, 1, 6)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.scrollAreaWidgetContents)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout_3.addWidget(self.buttonBox, 9, 6, 2, 3)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        Administration.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(Administration)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 819, 27))
+        self.menubar.setObjectName("menubar")
+        Administration.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(Administration)
+        self.statusbar.setObjectName("statusbar")
+        Administration.setStatusBar(self.statusbar)
+
+        self.retranslateUi(Administration)
+        QtCore.QMetaObject.connectSlotsByName(Administration)
+
+        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi))
+        self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.on_administration_ok(selfi))
+        self.pushButton.clicked.connect(lambda selfi = self : fonctions_self.open_dir(selfi, ".newPathToRInter"))
+        self.pushButton_2.clicked.connect(lambda selfi = self : fonctions_self.open_dir(selfi, ".newPathToRFma"))
+        self.pushButton_3.clicked.connect(lambda selfi = self : fonctions_self.open_dir(selfi, ".newPathToVars"))
+        self.lineEdit.textChanged.connect(lambda value = self.lineEdit, name = "newCentreInter": fonctions_self.on_lineEdit_changed(self, value, name))
+
+    def retranslateUi(self, Administration):
+        _translate = QtCore.QCoreApplication.translate
+        Administration.setWindowTitle(_translate("Administration", "PGLX - Administration"))
+        self.label.setText(_translate("Administration", "Administration de PGLX"))
+        self.label_2.setText(_translate("Administration", "Nom du CIS"))
+        self.pushButton.setText(_translate("Administration", "Chemin des interventions"))
+        self.pushButton_2.setText(_translate("Administration", "Chemin des FMA ..."))
+        self.pushButton_3.setText(_translate("Administration", "Chemin des variables"))
 
 class fonctions_self: #Fonctions faisant appel à self
     def new_rapportInter(self):
@@ -883,12 +1120,132 @@ class fonctions_self: #Fonctions faisant appel à self
         mySW.show()
 
     def createInter(self):
-        global self_ui_creatInter
+        global self_ui_createInter
         self_ui_createInter = self
         print("Nouvelle Intervention")
         self.centralwidget.setEnabled(False)
         mySW = Ui_create_inter()
         mySW.show()
+
+    def create_own(self):
+        global self_ui_createOwn
+        self_ui_createOwn = self
+        print("Nouvelle feuille personnalisée")
+        self.centralwidget.setEnabled(False)
+        mySW = Ui_create_own()
+        mySW.show()
+
+    def administration(self):
+        global self_ui_administration
+        self_ui_administration = self
+        print("Administration")
+        self.centralwidget.setEnabled(False)
+        mySW = Ui_Administration()
+        mySW.show()
+
+    def save_to_file(self, file_to_save): #ATTENTION A PRECISER LE CHEMIN DU FICHER SI IL EST DIFFERENT QUE LE CHEMIN VERS VARS
+        os.chdir(path_to_vars)
+        cwd = os.getcwd() #current working directory
+        print("Dossier actuel", cwd)
+
+
+        fileName,_ = QtWidgets.QFileDialog.getSaveFileName(self, "Save As",
+                path_to_rinter,
+                )
+
+        #for i in range(0, nbLigne)
+
+        subprocess.call(["cp", file_to_save, fileName]) #ATTENTION le dernier dossier garde le nom du dossier précédent
+            #path_to_session = new_path_to_session
+
+    def load_to_file(self):#ATTENTION A PRECISER LE CHEMIN DU FICHER SI IL EST DIFFERENT QUE LE CHEMIN VERS VARS
+
+        fileName = QtWidgets.QFileDialog.getOpenFileName(self, "Open",  path_to_rinter, '')
+
+        if fileName:
+            file = open(fileName[0], 'r') #prend la 1er valeur de fileName (cf getOpenFileName)
+            contenue = file.read()
+            self.textEdit.setText(contenue)
+            self.textEdit.setReadOnly(True)
+
+    def open_dir(self, file_to_save):
+        os.chdir(path_to_vars)
+        fileName = QtWidgets.QFileDialog.getExistingDirectory(directory="/home")
+        print("Chemin: ", fileName)
+        file = open(file_to_save, 'w')
+        file.write(str(fileName))
+        file.close()
+        return fileName
+
+    def on_administration_ok(self):
+        global path_to_rinter, path_to_vars, path_to_rfma, centreInter, a
+
+        os.chdir(path_to_vars)
+        if os.path.isfile(".newCentreInter"):
+            centreInter_2 = linecache.getline(".newCentreInter", 1)
+            centreInter = centreInter_2
+            print('Nouveau centre:', centreInter)
+            file = open(".centreInter", 'w')
+            file.write(str(centreInter))
+            file.close()
+
+        if os.path.isfile(".newPathToVars"):
+            path_to_vars_2 = linecache.getline(".newPathToVars", 1)
+            if os.path.exists(path_to_vars_2 + "/"):
+                path_to_vars = path_to_vars_2
+                print(path_to_vars)
+            else:
+                path_to_vars = path_to_vars_2
+                print("!A n'est pas un chemin, chemin forcé!")
+        if os.path.isfile(".newPathToRInter"):
+            path_to_rinter_2 = linecache.getline(".newPathToRInter", 1)
+            if os.path.exists(path_to_rinter_2):
+                path_to_rinter = path_to_rinter_2
+                file = open(".PathToRInter", 'w')
+                file.write(path_to_rinter)
+                file.close()
+                print(path_to_rinter)
+            else:
+                path_to_rinter = path_to_rinter_2
+                file = open(".PathToRInter", 'w')
+                file.write(path_to_rinter)
+                file.close()
+                print("!A n'est pas un chemin, chemin forcé!")
+        if os.path.isfile(".newPathToRFma"):
+            path_to_rfma_2 = linecache.getline(".newPathToRFma", 1)
+            if os.path.exists(path_to_rfma_2):
+                path_to_rfma = path_to_rfma_2
+                file = open(".PathToRFma", 'w')
+                file.write(path_to_rfma)
+                file.close()
+                print(path_to_rfma)
+            else:
+                path_to_rfma = path_to_rfma_2
+                file = open(".PathToRFma", 'w')
+                file.write(path_to_rfma)
+                file.close()
+                print("!A n'est pas un chemin, chemin forcé!")
+
+
+        fonctions_self.close_window(self)
+
+        print(path_to_rfma)
+        print(path_to_vars)
+        print(path_to_rinter)
+
+
+        conn = cups.Connection()
+        # Get a list of all printers
+        printers = conn.getPrinters()
+        for printer in printers:
+          # Print name of printers to stdout
+             #(screen)
+            print(printer, printers[printer]["device-uri"])
+        # get first printer from printer list
+        printer_name = printers.keys()[0]
+        conn.printFile(printer_name, filename,
+           "Python_Status_print", {})
+
 
     def on_spinBox_changed(self, value, name):
         os.chdir(path_to_vars)
@@ -980,6 +1337,12 @@ class fonctions_self: #Fonctions faisant appel à self
         win = Ui_create_inter()
         Ui_create_inter.suite(self)
 
+    def on_spinBox_4_changed(self, value):
+        print("Nombre de personnels:", value)
+        global b3, Ui_create_inter
+        b3 = value
+        win = Ui_create_inter()
+        Ui_create_inter.suite(self)
 
     def close_window(self):
         self.close()
@@ -995,26 +1358,81 @@ class fonctions_self: #Fonctions faisant appel à self
         self.License.show()
 
 class fonctions: #fonctions ne faisant pas appel à self
-    def create_inter():
-        global b, b2
+
+    def create_inter(self):
+        global b, b2, b3, heure_appel, centreInter, nCodis, natureInter, observation, demandeurInter, telDemandeur, adresseDemandeur, personnel, engins
         print("Création de l'intervention en cours ...")
         print("Récupération des variables dans les fichiers")
         os.chdir(path_to_vars)
-        heure_appel = fonctions.get_line(path_to_vars, ".heure_appel", 1)
-        centreInter = fonctions.get_line(path_to_vars, ".centreInter", 1)
-        nCodis = fonctions.get_line(path_to_vars, ".codis", 1)
-        natureInter = fonctions.get_line(path_to_vars, ".natureInter", 1)
-        observation = fonctions.get_line(path_to_vars, ".observation", 1)
-        demandeurInter = fonctions.get_line(path_to_vars, ".demandeurInter", 1)
-        telDemandeur.get_line(path_to_vars, ".telDemandeur", 1)
-        adresseDemandeur.get_line(path_to_vars, ".adresseDemandeur", 1)
-        for i in range(0, b):
+        heure_appel = fonctions.get_line_alpha(path_to_vars, ".heure_appel", 1)
+        centreInter = fonctions.get_line_alpha(path_to_vars, ".centreInter", 1)
+        nCodis = fonctions.get_line(path_to_vars, ".nCodis", 1)
+        natureInter = fonctions.get_line_alpha(path_to_vars, ".natureInter", 1)
+        observation = fonctions.get_line_alpha(path_to_vars, ".observation", 1)
+        demandeurInter = fonctions.get_line_alpha(path_to_vars, ".demandeurInter", 1)
+        telDemandeur = fonctions.get_line_alpha(path_to_vars, ".telDemandeur", 1)
+        adresseDemandeur = fonctions.get_line_alpha(path_to_vars, ".adresseDemandeur", 1)
 
+        personnel = []
+        for i in range(0, b):
+            fonctions_sp = str(fonctions.get_line_alpha(path_to_vars, ".fonctionSp-" + str(i), 1))
+            sp = str(fonctions.get_line_alpha(path_to_vars, ".sp-" + str(i), 1))
+            personnel.append([fonctions_sp, sp])
+        print("Personnels:", personnel)
+
+        engins = []
+        for i in range(0, b2):
+            fonction_engin = str(fonctions.get_line_alpha(path_to_vars, ".engin-" + str(i), 1))
+            engin = str(fonctions.get_line_alpha(path_to_vars, ".fonctionEngin-" + str(i), 1))
+            engins.append([fonction_engin, engin])
+        print("Engins:", engins)
+
+        renforts = []
+        for i in range(0, b3):
+            fonction_engin_renfort = str(fonctions.get_line_alpha(path_to_vars, ".enginRenfort-" + str(i), 1))
+            engin_renfort = str(fonctions.get_line_alpha(path_to_vars, ".fonctionEnginRenfort-" + str(i), 1))
+            renforts.append([fonction_engin_renfort, engin_renfort])
+        print("Engins:", renforts)
+
+        starLine = fonctions.create_line(80, "*")
+        dashLine = fonctions.create_line(80, '-')
+        fonctions.write_function(path_to_vars, "000000", heure_appel, '\n', starLine, '\n', heure_appel, '      ', centreInter, '\n', "N° Intervention: ", nCodis, '\n', "NATURE: ",  natureInter, '\n', "OBSERVATIONS: ", observation, '\n', dashLine, '\n', "DEMANDEUR: ", demandeurInter, '\n', "TELEPHONE: ", telDemandeur, '\n', "ADRESSE: ", adresseDemandeur, '\n', dashLine, '\n', "Personnels / Équipes", '\n', personnel, '\n \n', dashLine, '\n', "Engins", '\n', engins, '\n', dashLine, '\n \n', "Renforts: \n", renforts, '\n \n', starLine)
+
+        print("ALERTE: Nouvelle intervention en cours !")
+        self.hide()
+        self_ui_inter.centralwidget.setEnabled(True)
+
+    def write_function(path, name, *args, **keywords):
+        os.chdir(path)
+        print("Ecriture de", name)
+        file = open(name, 'w')
+        for i in args:
+            print("Ecrit", i)
+            file.write(str(i))
+        file.close()
+
+    def create_line(length, symbol):
+        line = ""
+        for i in range(0, length):
+            line += str(symbol)
+        print(line)
+        return line
+
+    def get_line_alpha(path, fichier, line):
+        os.chdir(path)
+        if os.path.isfile(fichier):
+            linecache.clearcache()
+            value = linecache.getline(fichier, line)
+            print("Valeur pour", fichier, value)
+            return value
+        else:
+            print("!A pas de fichier correcte")
+            return "!A"
 
     def get_line(path, fichier, line):
         os.chdir(path)
         if os.path.isfile(fichier):
-            value = linecache.getline(fichier, ligne)
+            value = linecache.getline(fichier, line)
             if value.isdigit():
                 print("Valeur pour ", fichier, ":", value)
                 return value
@@ -1138,27 +1556,27 @@ class fonctions: #fonctions ne faisant pas appel à self
         smur_1erDepart_txt = linecache.getline('.1erDepart_SMUR_txt', 1)
         helismur_1erDepart_txt = linecache.getline('.1erDepart_heliSMUR_txt', 1)
 
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_VSAV'):
             vsav_renfort = linecache.getline('.renfort_VSAV', 1)
         else:
             vsav_renfort = '0'
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_FPTSR'):
             fptsr_renfort = linecache.getline('.renfort_FPTSR', 1)
         else:
             fptsr_renfort = '0'
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_EPSA'):
             epsa_renfort = linecache.getline('.renfort_EPSA', 1)
         else:
             epsa_renfort = '0'
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_VL'):
             vl_renfort = linecache.getline('.renfort_VL', 1)
         else:
             vl_renfort = '0'
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_SMUR'):
             smur_renfort = linecache.getline('.renfort_SMUR', 1)
         else:
             smur_renfort = '0'
-        if os.path.isfile('.1erDepart_VSAV'):
+        if os.path.isfile('.renfort_heliSMUR'):
             helismur_renfort= linecache.getline('.renfort_heliSMUR', 1)
         else:
             helismur_renfort = '0'
@@ -1508,8 +1926,6 @@ class fonctions: #fonctions ne faisant pas appel à self
     def delete_file(file_to_delete):
         subprocess.call(["rm", file_to_delete])
 
-
-
     def nombre_de_ligne(fichier): # fonction pour connaitre le nombre de ligne pour le fichier "fichier"
         global nb_ligne
         if os.path.isfile(fichier):
@@ -1564,7 +1980,7 @@ class License(QtWidgets.QMainWindow):
         self.statusBar()
 
         self.setGeometry(300, 300, 350, 300)
-        self.setWindowTitle('Pompier-GLX - License')
+        self.setWindowTitle('Pompier-GLX - Licence')
         self.show()
 
         os.chdir(path_to_pglx)
