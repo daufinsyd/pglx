@@ -103,6 +103,9 @@ NCODISMAX = 500000 #nombre maximum pour le numero CODIS
 nbSPVSLL = 4 #nb SPV SLL dans boucle for
 nbSPVCas = 5 #nb SPV Cas dans boucle for
 
+DELETE_INTER_RITGHS = 100
+userRights = 999
+
 #nbSPVSLL = fonctions.get_line_int(path_to_session, "nbSPVSLL", 1, 4)
 print("nbSPVCLL", nbSPVSLL)
 
@@ -120,62 +123,92 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self_ui_inter = self
         PompierGLX = self
         PompierGLX.setObjectName("PompierGLX")
-        PompierGLX.resize(800, 600)
+        PompierGLX.resize(730, 564)
         self.centralwidget = QtWidgets.QWidget(PompierGLX)
         self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(-1, -1, 801, 571))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.label = QtWidgets.QLabel(self.frame)
-        self.label.setGeometry(QtCore.QRect(130, 0, 381, 21))
-        self.label.setObjectName("label")
-        self.name = QtWidgets.QLabel(self.frame)
-        self.name.setGeometry(QtCore.QRect(530, 0, 167, 21))
-        self.name.setObjectName("name")
-        self.new_rapportInter = QtWidgets.QPushButton(self.frame)
-        self.new_rapportInter.setGeometry(QtCore.QRect(30, 70, 241, 31))
-        self.new_rapportInter.setObjectName("new_rapportInter")
-        self.pushButton_2 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_2.setGeometry(QtCore.QRect(30, 110, 241, 31))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_3.setGeometry(QtCore.QRect(30, 150, 241, 31))
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
         self.pushButton_4 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_4.setGeometry(QtCore.QRect(30, 210, 241, 31))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_5 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_5.setGeometry(QtCore.QRect(30, 250, 241, 31))
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.button_close = QtWidgets.QPushButton(self.frame)
-        self.button_close.setGeometry(QtCore.QRect(690, 510, 97, 31))
-        self.button_close.setObjectName("button_close")
-        self.pushButton_7 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_7.setGeometry(QtCore.QRect(620, 70, 97, 31))
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_8 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_8.setGeometry(QtCore.QRect(620, 110, 97, 31))
-        self.pushButton_8.setObjectName("pushButton_8")
+        self.gridLayout_2.addWidget(self.pushButton_4, 7, 0, 1, 1)
         self.pushButton_9 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_9.setGeometry(QtCore.QRect(610, 210, 151, 31))
         self.pushButton_9.setObjectName("pushButton_9")
+        self.gridLayout_2.addWidget(self.pushButton_9, 7, 6, 1, 2)
+        self.pushButton_7 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.gridLayout_2.addWidget(self.pushButton_7, 3, 6, 1, 2)
         self.label_2 = QtWidgets.QLabel(self.frame)
-        self.label_2.setGeometry(QtCore.QRect(40, 40, 211, 21))
         self.label_2.setObjectName("label_2")
-        self.user = QtWidgets.QLabel(self.frame)
-        self.user.setGeometry(QtCore.QRect(290, 40, 67, 21))
-        self.user.setObjectName("user")
+        self.gridLayout_2.addWidget(self.label_2, 2, 0, 1, 1)
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setObjectName("label")
+        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 2)
+        self.pushButton_listeInters = QtWidgets.QPushButton(self.frame)
+        self.pushButton_listeInters.setObjectName("pushButton_listeInters")
+        self.gridLayout_2.addWidget(self.pushButton_listeInters, 10, 0, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(20, 155, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem, 11, 7, 1, 1)
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_2.addWidget(self.pushButton_3, 5, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 21, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem1, 2, 5, 1, 1)
+        self.button_close = QtWidgets.QPushButton(self.frame)
+        self.button_close.setObjectName("button_close")
+        self.gridLayout_2.addWidget(self.button_close, 12, 7, 1, 1)
         self.pushButton_10 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_10.setGeometry(QtCore.QRect(500, 250, 261, 31))
         self.pushButton_10.setObjectName("pushButton_10")
+        self.gridLayout_2.addWidget(self.pushButton_10, 8, 4, 1, 4)
+        self.line2 = QtWidgets.QFrame(self.frame)
+        self.line2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line2.setObjectName("line2")
+        self.gridLayout_2.addWidget(self.line2, 9, 0, 1, 1)
+        self.new_rapportInter = QtWidgets.QPushButton(self.frame)
+        self.new_rapportInter.setObjectName("new_rapportInter")
+        self.gridLayout_2.addWidget(self.new_rapportInter, 3, 0, 1, 1)
+        self.pushButton_8 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.gridLayout_2.addWidget(self.pushButton_8, 4, 6, 1, 2)
         self.pushButton_11 = QtWidgets.QPushButton(self.frame)
-        self.pushButton_11.setGeometry(QtCore.QRect(610, 290, 151, 31))
         self.pushButton_11.setObjectName("pushButton_11")
+        self.gridLayout_2.addWidget(self.pushButton_11, 9, 6, 2, 2)
+        spacerItem2 = QtWidgets.QSpacerItem(161, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem2, 5, 1, 1, 3)
+        self.user = QtWidgets.QLabel(self.frame)
+        self.user.setObjectName("user")
+        self.gridLayout_2.addWidget(self.user, 2, 1, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(180, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem3, 2, 3, 2, 2)
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout_2.addWidget(self.pushButton_2, 4, 0, 1, 1)
+        self.pushButton_5 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.gridLayout_2.addWidget(self.pushButton_5, 8, 0, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 33, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem4, 5, 6, 2, 1)
+        self.line1 = QtWidgets.QFrame(self.frame)
+        self.line1.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line1.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line1.setObjectName("line1")
+        self.gridLayout_2.addWidget(self.line1, 6, 0, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem5, 1, 0, 1, 1)
+        self.name = QtWidgets.QLabel(self.frame)
+        self.name.setMinimumSize(QtCore.QSize(150, 20))
+        self.name.setObjectName("name")
+        self.gridLayout_2.addWidget(self.name, 0, 4, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
         PompierGLX.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(PompierGLX)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 27))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 730, 22))
         self.menubar.setObjectName("menubar")
         PompierGLX.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(PompierGLX)
@@ -183,8 +216,9 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         PompierGLX.setStatusBar(self.statusbar)
 
         self.retranslateUi(PompierGLX)
-        self.button_close.clicked.connect(self.close)
+
         QtCore.QMetaObject.connectSlotsByName(PompierGLX)
+
 
         #CONNEXIONS
 
@@ -196,6 +230,9 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_9.clicked.connect(lambda selfi = self :fonctions_self.administration(self))
         self.pushButton_3.clicked.connect(lambda selfi = self :fonctions_self.casernement(self))
         self.pushButton_2.clicked.connect(lambda selfi = self :fonctions_self.fma(self))
+        self.pushButton_listeInters.clicked.connect(lambda selfi = self :fonctions_self.listInters(self))
+        self.button_close.clicked.connect(self.close)
+
 
     def retranslateUi(self, PompierGLX):
         file = path_to_pglx + '/.centreInter'
@@ -204,23 +241,25 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         else:
             name_2 = "du Centre d'Icendie et de Secours"
         USER = getpass.getuser()
+
         _translate = QtCore.QCoreApplication.translate
         PompierGLX.setWindowTitle(_translate("PompierGLX", "Pompier-GLX"))
-        self.label.setText(_translate("PompierGLX", "Bienvenue dans le Gestionnaire des Sapeurs-Pompiers: "))
-        self.name.setText(_translate("PompierGLX", name_2))
-        self.new_rapportInter.setText(_translate("PompierGLX", "Rédiger un rapport d\'Intervention"))
-        self.pushButton_2.setText(_translate("PompierGLX", "Rédiger un rapport de FMA"))
-        self.pushButton_3.setText(_translate("PompierGLX", "Rédiger un rapport de Casernement"))
         self.pushButton_4.setText(_translate("PompierGLX", "Créer une Intervention"))
-        self.pushButton_5.setText(_translate("PompierGLX", "Créer une feuille personnalisée"))
-        self.button_close.setText(_translate("PompierGLX", "Quitter"))
-        self.pushButton_7.setText(_translate("PompierGLX", "Crédits"))
-        self.pushButton_8.setText(_translate("PompierGLX", "License"))
         self.pushButton_9.setText(_translate("PompierGLX", "Administration"))
-        self.label_2.setText(_translate("PompierGLX", "Vous êtes connecté en tant que:"))
-        self.user.setText(_translate("PompierGLX", USER))
+        self.pushButton_7.setText(_translate("PompierGLX", "Crédits"))
+        self.label_2.setText(_translate("PompierGLX", "Vous êtes connecté en tant que"))
+        self.label.setText(_translate("PompierGLX", "Bienvenue dans le Gestionnaire des Sapeurs-Pompiers du "))
+        self.pushButton_listeInters.setText(_translate("PompierGLX", "Liste des Inters"))
+        self.pushButton_3.setText(_translate("PompierGLX", "Rédiger un rapport de Casernement"))
+        self.button_close.setText(_translate("PompierGLX", "Quitter"))
         self.pushButton_10.setText(_translate("PompierGLX", "Se connecter sous une autre session"))
+        self.new_rapportInter.setText(_translate("PompierGLX", "Rédiger un rapport d\'Intervention"))
+        self.pushButton_8.setText(_translate("PompierGLX", "License"))
         self.pushButton_11.setText(_translate("PompierGLX", "Préférences"))
+        self.user.setText(_translate("PompierGLX", USER))
+        self.pushButton_2.setText(_translate("PompierGLX", "Rédiger un rapport de FMA"))
+        self.pushButton_5.setText(_translate("PompierGLX", "Créer une feuille personnalisée"))
+        self.name.setText(_translate("PompierGLX", name_2))
 
     def tmp(self):
         print("rien")
@@ -1940,6 +1979,124 @@ class Ui_FMA(QtWidgets.QMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_autres), _translate("FMA", "Autres"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_rapport), _translate("FMA", "Rapport"))
 
+class Ui_ListInters(QtWidgets.QMainWindow):
+    def __init__(self, parent=None):
+        super(Ui_ListInters, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
+
+    def suite(self):
+        ListInters = self
+        ListInters.setObjectName("ListInters")
+        ListInters.resize(727, 472)
+        self.centralwidget = QtWidgets.QWidget(ListInters)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.pushButton = QtWidgets.QPushButton(self.frame)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 1, 0, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout_2.addWidget(self.buttonBox, 4, 3, 1, 1)
+        self.treeWidget = QtWidgets.QTreeWidget(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy)
+        self.treeWidget.setObjectName("treeWidget")
+        font = QtGui.QFont()
+        font.setFamily("Liberation Sans")
+        self.treeWidget.headerItem().setFont(1, font)
+        #item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
+        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
+        self.treeWidget.header().setDefaultSectionSize(100)
+        self.gridLayout_2.addWidget(self.treeWidget, 0, 0, 1, 4)
+        self.pushButton_delete = QtWidgets.QPushButton(self.frame)
+        self.pushButton_delete.setObjectName("pushButton_delete")
+        self.gridLayout_2.addWidget(self.pushButton_delete, 1, 2, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem, 1, 3, 1, 1)
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_2.addWidget(self.pushButton_3, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        ListInters.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(ListInters)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 727, 22))
+        self.menubar.setObjectName("menubar")
+        ListInters.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(ListInters)
+        self.statusbar.setObjectName("statusbar")
+        ListInters.setStatusBar(self.statusbar)
+
+
+
+        #MODIFICATIONS
+        fichier = path_to_rinter + '/.dataInters'
+        nbInters = fonctions.nombre_de_ligne(fichier)
+        print('BBBBBBBBBBBB4', fichier)
+        for i in range(1, nbInters+1):
+            line = []
+            line = fonctions.get_line_alpha(path_to_rinter, '.dataInters', i)
+            line = line.split()
+            print('AAA', line)
+            item_i = QtWidgets.QTreeWidgetItem()
+            item_i.setText(0, line[0])#N° inter
+            item_i.setText(1, line[3])#date
+            item_i.setText(2, line[8])#heure départ
+            item_i.setText(3, line[10])#heure retour
+            self.treeWidget.addTopLevelItem(item_i)
+
+
+
+        self.retranslateUi(ListInters)
+        QtCore.QMetaObject.connectSlotsByName(ListInters)
+
+
+
+        #CONNEXIONS
+        self.pushButton.clicked.connect(lambda selfi = self : fonctions.on_listInterOpen_clicked(selfi))
+        self.treeWidget.currentItemChanged.connect(lambda lineID = self.treeWidget.currentItem() : fonctions.on_treeListItemInters_clicked(lineID))
+        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))
+        self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))#CAR PAS DE CHANGEMNTS
+
+        userRights = 0
+        DELETE_INTER_RITGHS = 1
+        if userRights >= DELETE_INTER_RITGHS:
+            self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.on_listInterDelete_clicked(self))
+        else:
+            print("Cette action recquière une élévation des privilèges")
+            self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.DialogPerms(self))
+
+
+    def retranslateUi(self, ListInters):
+        _translate = QtCore.QCoreApplication.translate
+        ListInters.setWindowTitle(_translate("ListInters", "PGLX - Liste des Interventions"))
+        self.pushButton.setText(_translate("ListInters", "Ouvrir"))
+        self.treeWidget.headerItem().setText(0, _translate("ListInters", "Intervention"))
+        self.treeWidget.headerItem().setText(1, _translate("ListInters", "Date"))
+        self.treeWidget.headerItem().setText(2, _translate("ListInters", "Départ"))
+        self.treeWidget.headerItem().setText(3, _translate("ListInters", "Retour"))
+        self.treeWidget.headerItem().setText(4, _translate("ListInters", "Moyens"))
+        __sortingEnabled = self.treeWidget.isSortingEnabled()
+        self.treeWidget.setSortingEnabled(False)
+        #self.treeWidget.topLevelItem(0).setText(0, _translate("ListInters", "Nouvel élément"))
+        #self.treeWidget.topLevelItem(0).child(0).setText(0, _translate("ListInters", "Nouvel élément"))
+        self.treeWidget.setSortingEnabled(__sortingEnabled)
+        self.pushButton_delete.setText(_translate("ListInters", "Supprimer"))
+        self.pushButton_3.setText(_translate("ListInters", "Imprimer"))
+
+
 class Ui_DialogAddUser(QDialog):
     def __init__(self, parent=None):
         super(Ui_DialogAddUser, self).__init__(parent)
@@ -2022,6 +2179,7 @@ class Ui_DialogAddUser(QDialog):
         self.label_userName.setText(_translate("DialogAddUser", "Nom de l\'utilisateur"))
         self.radioButton_whiteList.setText(_translate("DialogAddUser", "Liste Blanche"))
         self.radioButton_blackList.setText(_translate("DialogAddUser", "Liste Noire"))
+
 
 class Ui_DialogRemoveUser(QDialog):
     def __init__(self, parent=None):
@@ -2106,6 +2264,102 @@ class Ui_DialogRemoveUser(QDialog):
         self.radioButton_whiteList.setText(_translate("DialogRemoveUser", "Liste Blanche"))
         self.radioButton_blackList.setText(_translate("DialogRemoveUser", "Liste Noire"))
 
+
+class Ui_PassWord(QDialog):
+    def __init__(self, parent=None):
+        super(Ui_PassWord, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
+
+    def suite(self):
+        PassWord = self
+        PassWord.setObjectName("PassWord")
+        PassWord.resize(418, 124)
+        PassWord.setMinimumSize(QtCore.QSize(418, 124))
+        self.gridLayout = QtWidgets.QGridLayout(PassWord)
+        self.gridLayout.setObjectName("gridLayout")
+        spacerItem = QtWidgets.QSpacerItem(41, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
+        self.label = QtWidgets.QLabel(PassWord)
+        self.label.setMinimumSize(QtCore.QSize(300, 0))
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
+        spacerItem1 = QtWidgets.QSpacerItem(41, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 0, 3, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem2, 1, 1, 1, 1)
+        self.lineEdit = QtWidgets.QLineEdit(PassWord)
+        self.lineEdit.setMinimumSize(QtCore.QSize(400, 32))
+        self.lineEdit.setStyleSheet("")
+        self.lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout.addWidget(self.lineEdit, 2, 0, 1, 4)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 56, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout.addItem(spacerItem3, 3, 2, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(PassWord)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout.addWidget(self.buttonBox, 4, 2, 1, 2)
+
+        self.retranslateUi(PassWord)
+        self.buttonBox.accepted.connect(PassWord.accept)
+        self.buttonBox.rejected.connect(PassWord.reject)
+        QtCore.QMetaObject.connectSlotsByName(PassWord)
+
+    def retranslateUi(self, PassWord):
+        _translate = QtCore.QCoreApplication.translate
+        PassWord.setWindowTitle(_translate("PassWord", "PGLX - Authentification"))
+        self.label.setText(_translate("PassWord", "Cette action requiers une élévation des privilèges"))
+
+class Ui_PermsError(QDialog):
+    def __init__(self, parent=None):
+        super(Ui_PermsError, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
+
+    def suite(self):
+        PermsError = self
+        PermsError.setObjectName("PermsError")
+        PermsError.resize(400, 300)
+        self.gridLayout = QtWidgets.QGridLayout(PermsError)
+        self.gridLayout.setObjectName("gridLayout")
+        self.textEdit = QtWidgets.QTextEdit(PermsError)
+        self.textEdit.setMinimumSize(QtCore.QSize(350, 110))
+        self.textEdit.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.ForbiddenCursor))
+        self.textEdit.setReadOnly(True)
+        self.textEdit.setObjectName("textEdit")
+        self.gridLayout.addWidget(self.textEdit, 0, 0, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(PermsError)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
+
+        self.buttonBox.accepted.connect(PermsError.accept)
+        self.buttonBox.rejected.connect(PermsError.reject)
+
+        self.retranslateUi(PermsError)
+        QtCore.QMetaObject.connectSlotsByName(PermsError)
+
+        #CONNEXIONS
+
+
+
+    def retranslateUi(self, PermsError):
+        _translate = QtCore.QCoreApplication.translate
+        PermsError.setWindowTitle(_translate("PermsError", "PGLX - Zone interdite"))
+        self.textEdit.setHtml(_translate("PermsError", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'DejaVu Sans\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Vous n\'avez pas les dertoits suffisants pour effectuer cette commande.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Si vous n\'utilisez pas la bonne session, veuillez vous enregistrer avec la bonne</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">via le menu principal de PGLX.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Un rapport a été envoyé au(x) responsable(s) du centre.</p></body></html>"))
+
 class fonctions_self: #Fonctions faisant appel à self
     def new_rapportInter(self):
         global self_ui_inter
@@ -2155,6 +2409,14 @@ class fonctions_self: #Fonctions faisant appel à self
         mySW = Ui_FMA()
         mySW.show()
 
+    def listInters(self):
+        global self_ui_listInters
+        self_ui_listInters = self
+        print("Liste des Interventions")
+        self.centralwidget.setEnabled(False)
+        mySW = Ui_ListInters()
+        mySW.show()
+
     def DialogAddUser(self):
         global self_ui_dialogAddUser
         self_ui_dialogAddUser = self
@@ -2169,6 +2431,13 @@ class fonctions_self: #Fonctions faisant appel à self
         print("DialogRemoveUser")
         self.centralwidget.setEnabled(False)
         mySW = Ui_DialogRemoveUser()
+        mySW.show()
+
+    def DialogPerms(self):
+        global self_ui_dialogPerms
+        self_ui_dialogPerms = self
+        print("DialogPerms")
+        mySW = Ui_PermsError()
         mySW.show()
 
     def save_tab(self):
@@ -2442,6 +2711,22 @@ class fonctions_self: #Fonctions faisant appel à self
         self.close()
         Ui_Administration.suite(self_ui_dialogRemoveUser)
 
+    def on_listInterDelete_clicked(self):
+        global listInterNum
+        os.chdir(path_to_rinter)
+        listInterNum = int(listInterNum)
+        nbInters = fonctions.nombre_de_ligne('.dataInters')
+        file = open('newData', 'w') #nouveau fichier temporaire crée
+        for i in range(1, nbInters+1):
+            if i != listInterNum:
+                file.write(str(fonctions.get_line_alpha(path_to_rinter, '.dataInters', i)))#si l'inter est la celle que l'on veut supprimer elle n'est pas réécrite, autrement si
+        file.close()
+
+        subprocess.call(["rm", ".dataInters"])
+        subprocess.call(["mv", "newData", ".dataInters"])
+
+        Ui_ListInters.suite(self)
+
     def addItem_comboBox(self, combobox, file_items): #Ajoute à combobox les items présents dans le fichier file_items (lui même présent dans path_to_pglx)
         os.chdir(path_to_pglx)#les listes con_fptl .... sont logées dans path_to_pglx protégé en écriture
         if os.path.isfile('.' + file_items):
@@ -2633,6 +2918,25 @@ class fonctions:
         file = open('AAA', 'w')
         file.write(str(user))
         file.close()
+
+    def on_treeListItemInters_clicked(lineID):
+        global listInterNum
+        listInterNum = lineID.text(0) #renvoi la valeur en texte de la colonne 0 de la ligne lineID de treeWidget
+
+    def on_listInterOpen_clicked(self):
+        global listInterNum
+        print("visionnage de l'intervention N°", listInterNum)
+        os.chdir(path_to_rinter)
+
+        fileToOpen = fonctions.get_line_alpha(path_to_rinter, '.dataInters', int(listInterNum))
+
+        if fileToOpen == "!A":
+            print("PAS DE FICHIER ARRET")
+        else:
+            fileToOpen = fileToOpen.split()
+            fileToOpen = fileToOpen[1] + ' ' + fileToOpen[2] #nom du fichier
+            subprocess.call(["xdg-open", fileToOpen])
+
 
     def file_is_int(path_to_file, file, line):  #regarde si un fichier existe et si son contenu à la ligne line est un entier: renvoi 1 si true et 0 si false
         var = 0
@@ -2957,16 +3261,8 @@ class fonctions:
         os.chdir(path_to_rinter)  #n° inter
 
         file_nombre = '.nbInter'
-
-
-        if os.path.isfile(file_nombre):
-            nombre = linecache.getline(file_nombre, 1)
-            if nombre.isdigit():
-                nombre = int(nombre) + 1
-            else:
-                nombre = 0
-        else:
-            nombre = 0
+        nombre = fonctions.get_line_int(path_to_rinter, file_nombre, 1, 0) + 1
+        print('Intervention N°:', nombre)
 
         os.chdir(path_to_vars)
 
@@ -3266,10 +3562,14 @@ class fonctions:
 
 
             new_name = path_to_rinter + '/' + name
-            path = path_to_rinter
 
             subprocess.call(["mv", "0rapport", new_name])
-            os.chdir(path)
+
+            os.chdir(path_to_rinter)
+
+            data = str(nombre) + ' ' + str(name) + ' ' + str(datetime.datetime.now()) + ' ' + str(heure_appel.rstrip('\n')) + ' ' + str(heure_depart.rstrip('\n')) + ' ' + str(heure_fin.rstrip('\n'))
+            file = open(".dataInters", 'a')
+            file.write(data)
             subprocess.call(["xdg-open", name])
 
             file_tmp = path_to_vars + '/' + ".1erDepart_VSAV"
