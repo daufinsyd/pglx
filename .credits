@@ -1,4 +1,4 @@
-Pompier-GLX version 3.1.10 Beta
+Pompier-GLX version 3.1.14 Beta
 
 Développeur: Sydney Gems
 
@@ -24,6 +24,16 @@ Beta
  + clear fonctions.rediger()
 3.1.10:
  + add Inters list view
+3.1.12:
+ + fix list view for inter
+ + fix redaction style for inter
+ + other bugs fix
+3.1.14:
+ + add VL
+ + fix combobox size
+ + fix fma now auto reload all combobox values
+ + fix fma delete all var files
+ + other bugs fix
 
 3.2 :
  + fix administration
