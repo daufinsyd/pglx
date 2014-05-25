@@ -1,4 +1,4 @@
-Pompier-GLX version 3.1.14 Beta
+Pompier-GLX version 3.1.22 Beta
 
 Développeur: Sydney Gems
 
@@ -12,6 +12,10 @@ Alpha
 2.x : GUI (Gtk+)
 3.x : GUI (Qt5)
 3.0.4: add FMA support
+
+Beta
+3.1: Beta & auto load values
+3.2: can change number of vehicles
 
 Beta
 3.1 :
@@ -34,8 +38,16 @@ Beta
  + fix fma now auto reload all combobox values
  + fix fma delete all var files
  + other bugs fix
+3.1.20:
+ + auto expand verticaly toolBox for Inter
+ + remove second scrollwidget for VTU and FPTL
+ + bugs fix
 
-3.2 :
+3.2:
+ + can change the number of vehicles for inter
+ + optimize regiger() function
+
+3.2.x :
  + fix administration
 
 Final Release
