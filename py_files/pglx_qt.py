@@ -106,14 +106,18 @@ nbSPVCas = 5 #nb SPV Cas dans boucle for
 NFPTL = 2#A REMETTRE à 1
 NVTU = 2#A REMETTRE VALEUR PAR DEFAUT
 NVL = 2#A REMETTRE VALEUR PAR DEFAUT
+NEPSA=0
+NFPTSR=0
+NVSAV=0
+
 
 DELETE_INTER_RITGHS = 100
 userRights = 999
 
-#nbSPVSLL = fonctions.get_line_int(path_to_session, "nbSPVSLL", 1, 4)
+#nbSPVSLL = fonctions.get_line_int(path_to_session, "nbSPVSLL", 1, 5)
 print("nbSPVCLL", nbSPVSLL)
 
-#nbSPVCas = fonctions.get_line_int(path_to_session, "nbSPVCas", 1, 5)
+#nbSPVCas = fonctions.get_line_int(path_to_session, "nbSPVCas", 1, 6)
 print("nbSPVCas", nbSPVCas)
 
 class Ui_PompierGLX(QtWidgets.QMainWindow):
@@ -1328,6 +1332,8 @@ class Ui_Administration(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(Administration)
         self.centralwidget.setObjectName("centralwidget")
 
+        self.centralwidget = QtWidgets.QWidget(Administration)
+        self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -1340,111 +1346,152 @@ class Ui_Administration(QtWidgets.QMainWindow):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 781, 429))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 789, 555))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        spacerItem = QtWidgets.QSpacerItem(254, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem, 0, 0, 1, 3)
-        self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label.setObjectName("label")
-        self.gridLayout_3.addWidget(self.label, 0, 4, 1, 3)
-        spacerItem1 = QtWidgets.QSpacerItem(302, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem1, 0, 7, 1, 3)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 23, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem2, 1, 5, 1, 1)
-        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout_3.addWidget(self.label_2, 2, 0, 1, 1)
-        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
-        self.lineEdit.setMinimumSize(QtCore.QSize(120, 30))
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_3.addWidget(self.lineEdit, 2, 1, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(322, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem3, 2, 3, 1, 6)
-        self.label_BlackList = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_BlackList.setObjectName("label_BlackList")
-        self.gridLayout_3.addWidget(self.label_BlackList, 2, 9, 1, 1)
-        self.line = QtWidgets.QFrame(self.scrollAreaWidgetContents)
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.gridLayout_3.addWidget(self.line, 3, 0, 1, 3)
-        self.listWidget_WhiteUser = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
-        self.listWidget_WhiteUser.setMinimumSize(QtCore.QSize(150, 0))
-        self.listWidget_WhiteUser.setObjectName("listWidget_WhiteUser")
-        self.gridLayout_3.addWidget(self.listWidget_WhiteUser, 3, 5, 10, 3)
-        spacerItem4 = QtWidgets.QSpacerItem(45, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem4, 3, 8, 3, 1)
+        spacerItem = QtWidgets.QSpacerItem(20, 23, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem, 1, 5, 1, 1)
+        self.pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_3.addWidget(self.pushButton_3, 7, 0, 2, 2)
         self.listWidget_BlackList = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
         self.listWidget_BlackList.setMinimumSize(QtCore.QSize(150, 0))
         self.listWidget_BlackList.setObjectName("listWidget_BlackList")
         self.gridLayout_3.addWidget(self.listWidget_BlackList, 3, 9, 10, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(45, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem1, 3, 8, 3, 1)
+        self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label.setObjectName("label")
+        self.gridLayout_3.addWidget(self.label, 0, 4, 1, 3)
+        self.nbSPVCas = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.nbSPVCas.setObjectName("nbSPVCas")
+        self.gridLayout_3.addWidget(self.nbSPVCas, 11, 0, 1, 2)
+        spacerItem2 = QtWidgets.QSpacerItem(322, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem2, 2, 3, 1, 6)
+        self.listWidget_WhiteUser = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
+        self.listWidget_WhiteUser.setMinimumSize(QtCore.QSize(150, 0))
+        self.listWidget_WhiteUser.setObjectName("listWidget_WhiteUser")
+        self.gridLayout_3.addWidget(self.listWidget_WhiteUser, 3, 5, 10, 3)
+        spacerItem3 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem3, 8, 2, 1, 3)
+        spacerItem4 = QtWidgets.QSpacerItem(302, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem4, 0, 7, 1, 3)
+        spacerItem5 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem5, 5, 2, 1, 3)
+        self.spinBox_nbSPVCas = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbSPVCas.setObjectName("spinBox_nbSPVCas")
+        self.gridLayout_3.addWidget(self.spinBox_nbSPVCas, 11, 3, 1, 1)
+        self.spinBox_nbSPVSLL = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbSPVSLL.setObjectName("spinBox_nbSPVSLL")
+        self.gridLayout_3.addWidget(self.spinBox_nbSPVSLL, 10, 3, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(141, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem6, 10, 4, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.scrollAreaWidgetContents)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout_3.addWidget(self.buttonBox, 20, 8, 1, 2)
+        self.pushButton_session = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.pushButton_session.setObjectName("pushButton_session")
+        self.gridLayout_3.addWidget(self.pushButton_session, 9, 0, 1, 2)
+        self.label_nbFPTL = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbFPTL.setObjectName("label_nbFPTL")
+        self.gridLayout_3.addWidget(self.label_nbFPTL, 15, 0, 1, 1)
+        self.spinBox_nbFPTL = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbFPTL.setObjectName("spinBox_nbFPTL")
+        self.gridLayout_3.addWidget(self.spinBox_nbFPTL, 15, 1, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton.setObjectName("pushButton")
         self.gridLayout_3.addWidget(self.pushButton, 4, 0, 2, 2)
-        spacerItem5 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem5, 5, 2, 1, 3)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 47, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem7, 19, 9, 1, 1)
+        spacerItem8 = QtWidgets.QSpacerItem(141, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem8, 11, 4, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout_3.addWidget(self.pushButton_2, 6, 0, 1, 2)
-        spacerItem6 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem6, 6, 2, 1, 3)
+        spacerItem9 = QtWidgets.QSpacerItem(557, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem9, 20, 0, 1, 8)
+        spacerItem10 = QtWidgets.QSpacerItem(254, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem10, 0, 0, 1, 3)
         self.pushButton_ListAdd = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_ListAdd.setText("")
         icon = QtGui.QIcon.fromTheme("add")
         self.pushButton_ListAdd.setIcon(icon)
         self.pushButton_ListAdd.setObjectName("pushButton_ListAdd")
         self.gridLayout_3.addWidget(self.pushButton_ListAdd, 6, 8, 2, 1)
-        self.pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.gridLayout_3.addWidget(self.pushButton_3, 7, 0, 2, 2)
-        spacerItem7 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem7, 8, 2, 1, 3)
-        self.pushButton_session = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_session.setObjectName("pushButton_session")
-        self.gridLayout_3.addWidget(self.pushButton_session, 9, 0, 1, 2)
-        spacerItem8 = QtWidgets.QSpacerItem(198, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem8, 9, 2, 1, 3)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 47, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem11, 19, 6, 1, 1)
+        spacerItem12 = QtWidgets.QSpacerItem(198, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem12, 9, 2, 1, 3)
+        self.line = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.gridLayout_3.addWidget(self.line, 3, 0, 1, 3)
+        spacerItem13 = QtWidgets.QSpacerItem(565, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem13, 6, 2, 1, 3)
+        self.label_nbSPVSLL = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbSPVSLL.setObjectName("label_nbSPVSLL")
+        self.gridLayout_3.addWidget(self.label_nbSPVSLL, 10, 0, 1, 2)
+        self.label_BlackList = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_BlackList.setObjectName("label_BlackList")
+        self.gridLayout_3.addWidget(self.label_BlackList, 2, 9, 1, 1)
+        self.spinBox_nbVL = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbVL.setObjectName("spinBox_nbVL")
+        self.gridLayout_3.addWidget(self.spinBox_nbVL, 16, 1, 1, 1)
         self.pushButton_ListRemove = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_ListRemove.setText("")
         icon = QtGui.QIcon.fromTheme("remove")
         self.pushButton_ListRemove.setIcon(icon)
         self.pushButton_ListRemove.setObjectName("pushButton_ListRemove")
         self.gridLayout_3.addWidget(self.pushButton_ListRemove, 9, 8, 2, 1)
-        self.label_nbSPVSLL = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_nbSPVSLL.setObjectName("label_nbSPVSLL")
-        self.gridLayout_3.addWidget(self.label_nbSPVSLL, 10, 0, 1, 2)
-        self.spinBox_nbSPVSLL = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
-        self.spinBox_nbSPVSLL.setObjectName("spinBox_nbSPVSLL")
-        self.gridLayout_3.addWidget(self.spinBox_nbSPVSLL, 10, 3, 1, 1)
-        spacerItem9 = QtWidgets.QSpacerItem(141, 21, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem9, 10, 4, 1, 1)
-        self.nbSPVCas = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.nbSPVCas.setObjectName("nbSPVCas")
-        self.gridLayout_3.addWidget(self.nbSPVCas, 11, 0, 1, 2)
-        self.spinBox_nbSPVCas = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
-        self.spinBox_nbSPVCas.setObjectName("spinBox_nbSPVCas")
-        self.gridLayout_3.addWidget(self.spinBox_nbSPVCas, 11, 3, 1, 1)
-        spacerItem10 = QtWidgets.QSpacerItem(141, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem10, 11, 4, 1, 1)
+        self.label_nbVTU = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbVTU.setObjectName("label_nbVTU")
+        self.gridLayout_3.addWidget(self.label_nbVTU, 17, 0, 1, 1)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 58, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem14, 19, 0, 1, 1)
+        self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.lineEdit.setMinimumSize(QtCore.QSize(120, 30))
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_3.addWidget(self.lineEdit, 2, 1, 1, 1)
+        self.label_nbVL = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbVL.setObjectName("label_nbVL")
+        self.gridLayout_3.addWidget(self.label_nbVL, 16, 0, 1, 1)
+        spacerItem15 = QtWidgets.QSpacerItem(198, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_3.addItem(spacerItem15, 12, 2, 1, 3)
+        self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_3.addWidget(self.label_2, 2, 0, 1, 1)
         self.pushButton_4 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_4.setObjectName("pushButton_4")
         self.gridLayout_3.addWidget(self.pushButton_4, 12, 0, 1, 2)
-        spacerItem11 = QtWidgets.QSpacerItem(198, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem11, 12, 2, 1, 3)
-        spacerItem12 = QtWidgets.QSpacerItem(20, 58, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem12, 13, 0, 1, 1)
-        spacerItem13 = QtWidgets.QSpacerItem(20, 47, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem13, 13, 6, 1, 1)
-        spacerItem14 = QtWidgets.QSpacerItem(20, 47, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_3.addItem(spacerItem14, 13, 9, 1, 1)
-        spacerItem15 = QtWidgets.QSpacerItem(557, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_3.addItem(spacerItem15, 14, 0, 1, 8)
-        self.buttonBox = QtWidgets.QDialogButtonBox(self.scrollAreaWidgetContents)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
-        self.gridLayout_3.addWidget(self.buttonBox, 14, 8, 1, 2)
+        self.spinBox_nbVTU = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbVTU.setObjectName("spinBox_nbVTU")
+        self.gridLayout_3.addWidget(self.spinBox_nbVTU, 17, 1, 1, 1)
+        self.line_2 = QtWidgets.QFrame(self.scrollAreaWidgetContents)
+        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.gridLayout_3.addWidget(self.line_2, 14, 0, 1, 10)
+        self.label_nbEPSA = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbEPSA.setObjectName("label_nbEPSA")
+        self.gridLayout_3.addWidget(self.label_nbEPSA, 15, 4, 1, 1)
+        self.label_nbFPTSR = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbFPTSR.setObjectName("label_nbFPTSR")
+        self.gridLayout_3.addWidget(self.label_nbFPTSR, 16, 4, 1, 1)
+        self.label_nbVSAV = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_nbVSAV.setObjectName("label_nbVSAV")
+        self.gridLayout_3.addWidget(self.label_nbVSAV, 17, 4, 1, 1)
+        self.spinBox_nbEPSA = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbEPSA.setObjectName("spinBox_nbEPSA")
+        self.gridLayout_3.addWidget(self.spinBox_nbEPSA, 15, 5, 1, 1)
+        self.spinBox_nbFPTSR = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbFPTSR.setObjectName("spinBox_nbFPTSR")
+        self.gridLayout_3.addWidget(self.spinBox_nbFPTSR, 16, 5, 1, 1)
+        self.spinBox_nbVSAV = QtWidgets.QSpinBox(self.scrollAreaWidgetContents)
+        self.spinBox_nbVSAV.setObjectName("spinBox_nbVSAV")
+        self.gridLayout_3.addWidget(self.spinBox_nbVSAV, 17, 5, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
@@ -1463,6 +1510,12 @@ class Ui_Administration(QtWidgets.QMainWindow):
         #MODIFICATIONS
         self.spinBox_nbSPVCas.setValue(nbSPVCas)
         self.spinBox_nbSPVSLL.setValue(nbSPVSLL)
+        self.spinBox_nbFPTL.setValue(NFPTL)
+        self.spinBox_nbVL.setValue(NVL)
+        self.spinBox_nbEPSA.setValue(NEPSA)
+        self.spinBox_nbFPTSR.setValue(NFPTSR)
+        self.spinBox_nbVSAV.setValue(NVSAV)
+        self.spinBox_nbVTU.setValue(NVTU)
 
         blackListedUser = fonctions.get_line_alpha(path_to_session, "blackList", 1, "")
         blackListedUser = blackListedUser.split()
@@ -1474,7 +1527,7 @@ class Ui_Administration(QtWidgets.QMainWindow):
             self.listWidget_WhiteUser.addItem(i)
         #CONNEXION
 
-        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))
+        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))#fichiers supprimés ?
         self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.on_administration_ok(selfi))
 
         self.listWidget_WhiteUser.setCurrentRow(0)
@@ -1491,7 +1544,12 @@ class Ui_Administration(QtWidgets.QMainWindow):
 
         self.spinBox_nbSPVCas.valueChanged.connect(lambda value=self.spinBox_nbSPVCas, name = "nbSPVCas": fonctions.on_nbSpinbox_changed(nbSPVCas, value, name))
         self.spinBox_nbSPVSLL.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "nbSPVSLL": fonctions.on_nbSpinbox_changed(nbSPVSLL, value, name))
-
+        self.spinBox_nbFPTL.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NFPTL": fonctions.on_nbSpinbox_changed(NFPTL, value, name))
+        self.spinBox_nbVL.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NVL": fonctions.on_nbSpinbox_changed(NVL, value, name))
+        self.spinBox_nbEPSA.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NEPSA": fonctions.on_nbSpinbox_changed(NEPSA, value, name))
+        self.spinBox_nbFPTSR.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NFPTSR": fonctions.on_nbSpinbox_changed(NFPTSR, value, name))
+        self.spinBox_nbVSAV.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NVSAV": fonctions.on_nbSpinbox_changed(NVSAV, value, name))
+        self.spinBox_nbVTU.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NVTU": fonctions.on_nbSpinbox_changed(NVTU, value, name))
 
     def retranslateUi(self, Administration):
         _translate = QtCore.QCoreApplication.translate
@@ -1504,8 +1562,16 @@ class Ui_Administration(QtWidgets.QMainWindow):
         self.pushButton_session.setText(_translate("Administration", "Chemin session"))
         self.label_nbSPVSLL.setText(_translate("Administration", "Nombre de Pompier(s) SLL"))
         self.nbSPVCas.setText(_translate("Administration", "Nombre de Pompiers(s) Caserne"))
+        self.label_nbSPVSLL.setText(_translate("Administration", "Nombre de Pompier(s) SLL"))
+        self.label_BlackList.setText(_translate("Administration", "Liste Noire"))
+        self.label_nbFPTL.setText(_translate("Administration", "Nombre de FPTL"))
+        self.label_nbVTU.setText(_translate("Administration", "Nombre de VTU"))
+        self.label_nbVL.setText(_translate("Administration", "Nombre de VL"))
+        self.label_2.setText(_translate("Administration", "Nom du CIS"))
         self.pushButton_4.setText(_translate("Administration", "Changer le mot de passe"))
-
+        self.label_nbEPSA.setText(_translate("Administration", "Nombre d\'EPSA"))
+        self.label_nbFPTSR.setText(_translate("Administration", "Nombre de FPTSR"))
+        self.label_nbVSAV.setText(_translate("Administration", "Nombre de VSAV"))
 
 class Ui_Casernement(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -2640,7 +2706,6 @@ class fonctions_self: #Fonctions faisant appel à self
                 path_to_vars = path_to_vars_2
                 print(path_to_vars)
             else:
-                #path_to_vars = path_to_vars_2
                 print("!A n'est pas un chemin, chemin forcé!")
 
         if os.path.isfile(".newPathToRInter"):
@@ -2652,10 +2717,6 @@ class fonctions_self: #Fonctions faisant appel à self
                 file.close()
                 print(path_to_rinter)
             else:
-                #path_to_rinter = path_to_rinter_2
-                #file = open(".PathToRInter", 'w')
-                #file.write(path_to_rinter)
-                #file.close()
                 print("!A n'est pas un chemin, chemin forcé!")
 
         if os.path.isfile(".newPathToRFma"):
@@ -2668,43 +2729,15 @@ class fonctions_self: #Fonctions faisant appel à self
                 print(path_to_rfma)
             else:
                 path_to_rfma = path_to_rfma_2
-                #file = open(".PathToRFma", 'w')
-                #file.write(path_to_rfma)
-                #file.close()
                 print("!A n'est pas un chemin, chemin forcé!")
 
 
         fonctions_self.close_window(self, "")
-
+        fonctions.update_vars()
 
         print(path_to_rfma)
         print(path_to_vars)
         print(path_to_rinter)
-
-        #win = Ui_PompierGLX()
-        #Ui_PompierGLX.suite(self)
-
-        #self = Ui_PompierGLX
-        #file = path_to_pglx + '/.centreInter'
-        #if os.path.isfile(file):
-        #    name_2 = linecache.getline(file, 1)
-        #else:
-        #    name_2 = "du Centre d'Icendie et de Secours"
-
-        #_translate = QtCore.QCoreApplication.translate
-        #self.name.setText(_translate("PompierGLX", name_2))
-
-        #conn = cups.Connection()
-        # Get a list of all printers
-        #printers = conn.getPrinters()
-        #for printer in printers:
-          # Print name of printers to stdout
-             #(screen)
-        #    print(printer, printers[printer]["device-uri"])
-        # get first printer from printer list
-        #printer_name = printers.keys()[0]
-        #conn.printFile(printer_name, filename,
-        #   "Python_Status_print", {})
 
 
     def on_spinBox_changed(self, value, name):
@@ -2973,7 +3006,7 @@ class fonctions_self: #Fonctions faisant appel à self
 
 class fonctions:
     def update_vars():  # met à jour les divers variables (ex: chemins, nom caserne ...)
-        global NCODISMAX, path_to_session, path_to_pglx, path_to_vars, path_to_rinter, path_to_rfma, path_to_rcasernement, b, b2, b3, b_casernement, b_fma_formateur, b_fma_spv, b_fma_vehicules, b_fma_lieux, nbSPVCas, nbSPVSLL, self_ui_inter
+        global NCODISMAX, path_to_session, path_to_pglx, path_to_vars, path_to_rinter, path_to_rfma, path_to_rcasernement, b, b2, b3, b_casernement, b_fma_formateur, b_fma_spv, b_fma_vehicules, b_fma_lieux, nbSPVCas, nbSPVSLL, self_ui_inter, NVTU, NVL, NFPTL, NFPTSR, NVSAV, NEPSA
         print("var update ...")
         path_to_session = "/home/Pompiers/Public/.tmp/session"  ### sert à stocker à travers le temps des variables
         path_to_pglx = "/home/Pompiers/Public/Rapports/Pompier-GLX"  ### Sert unsiquement pour les fichiers py et images ###
@@ -3019,6 +3052,13 @@ class fonctions:
 
         nbSPVCas = fonctions.get_line_int(path_to_session, "nbSPVCas", 1, 5)
         print("nbSPVCas", nbSPVCas)
+
+        NFPTL = fonctions.get_line_int(path_to_session, "NFPTL", 1, 1)
+        NVTU = fonctions.get_line_int(path_to_session, "NVTU", 1, 1)
+        NVL = fonctions.get_line_int(path_to_session, "NVL", 1, 1)
+        NEPSA=fonctions.get_line_int(path_to_session, "NEPSA", 1, 0)
+        NFPTSR=fonctions.get_line_int(path_to_session, "NFPTSR", 1, 0)
+        NVSAV=fonctions.get_line_int(path_to_session, "NVSAV", 1, 0)
 
 
     def on_nbSpinbox_changed(var, value, name):  #change la valeur d'une variable
@@ -3747,16 +3787,6 @@ class fonctions:
             if i != 0:
                 ligne3 += ' VL-' + str(j)
 
-        '''
-        if fptl == True:
-            ligne3 += '  FPTL'
-        if vtu == True:
-            ligne3 += '  VTU'
-        if remorque != False:
-            ligne3 += ' & Remorque'
-        if vl == True:
-            ligne3 += ' VL'
-        '''
 
         ligne3 += "\n"
         ligne4 = 'Nature: ' + str(nature_inter).rstrip('\n') + "\n"
@@ -3764,27 +3794,7 @@ class fonctions:
         ligne6 = 'Demandeur: ' + str(demandeur_inter).rstrip('\n') + "\n"
         ligne7 = '\n>>Sapeur-Pompiers & Fonctions'
 
-        """
-        if fptl == True:
-            ligne8 = "\nCA FPTL: " + str(ca_fptl).rstrip('\n') + '\n'
-            ligne9 = "Conducteur FPTL: " + str(con_fptl).rstrip('\n') + '\n'
-            ligne10 = "CE BAT FPTL: " + str(ce_fptl).rstrip('\n') + '\n'
-            ligne11 = "EQU BAT FPRL: " + str(equ_fptl).rstrip('\n') + '\n'
-            ligne12 = "CE BAL FPTL: " + str(ce2_fptl).rstrip('\n') + '\n'
-            ligne13 = "EQU BAT FPTL: " + str(equ2_fptl).rstrip('\n') + '\n'
-            ligne13_2 = "Stagiaire FPTL: " + str(stag_fptl).rstrip('\n') + '\n'
-        if vtu == True:
-            ligne14 = "\nCA VTU: " + str(ca_vtu).rstrip('\n') + '\n'
-            ligne15 = "Conducteur VTU: " + str(con_vtu).rstrip('\n') + '\n'
-            ligne16 = "EQU VTU: " + str(ce_vtu).rstrip('\n') + '\n'
-            ligne16_2 = "Stagiaire VTU: " + str(stag_vtu).rstrip('\n') + '\n'
-        if vl == True:
-            ligneConVL = "\nConducteur VL: " + str(con_vl).rstrip('\n') + '\n'
-            ligneCaVL = "CA VL: " + str(ca_vl).rstrip('\n') + '\n'
-            ligneCeVL = "CE VL: " + str(ce_vl).rstrip('\n') + '\n'
-            ligneEquVL = "EQU VL: " + str(equ_vl).rstrip('\n') + '\n'
-            ligneStagVL = "Stagiaire VL: " + str(stag_vl).rstrip('\n') + '\n'
-        """
+
         linecache.clearcache()
         nb_ligne_rapport = fonctions.nombre_de_ligne('.rapport_txt')
         ligne_text = ""
@@ -3818,27 +3828,7 @@ class fonctions:
             fichier.write(ligne6)
             fichier.write("\n")
             fichier.write(ligne7)
-            '''
-            if fptl == True:
-                fichier.write(ligne8)
-                fichier.write(ligne9)
-                fichier.write(ligne10)
-                fichier.write(ligne11)
-                fichier.write(ligne12)
-                fichier.write(ligne13)
-                fichier.write(ligne13_2)
-            if vtu == True:
-                fichier.write(ligne14)
-                fichier.write(ligne15)
-                fichier.write(ligne16)
-                fichier.write(ligne16_2)
-            if vl == True:
-                fichier.write(ligneCaVL)
-                fichier.write(ligneConVL)
-                fichier.write(ligneCeVL)
-                fichier.write(ligneEquVL)
-                fichier.write(ligneStagVL)
-            '''
+
 
             fichier.write('\n')
             equipage_vl = equipage_vl.split(";;")
@@ -3951,127 +3941,7 @@ class fonctions:
                 fileToDelete = path_to_vars + '/' + str(i)
                 fonctions.delete_file(fileToDelete)
 
-            '''
-            file_tmp = path_to_vars + '/' + ".1erDepart_VSAV"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_FPTSR"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_EPSA"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_VL"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_SMUR"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_heliSMUR"
-            fonctions.delete_file(file_tmp)
 
-            file_tmp = path_to_vars + '/' + ".1erDepart_VSAV_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_FPTSR_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_EPSA_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_VL_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_SMUR_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".1erDepart_heliSMUR_txt"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".renfort_VSAV"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_FPTSR"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_EPSA"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_VL"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_SMUR"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_heliSMUR"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".renfort_VSAV_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_FPTSR_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_EPSA_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_VL_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_SMUR_txt"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".renfort_heliSMUR_txt"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".bridage_verte"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".gendarmerie"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".gdf"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".edf"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".service_eaux"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".con_vtu"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".ca_vtu"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".ce_vtu"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".stag_vtu"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".con_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".ca_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".ce_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".ce2_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".equ_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".equ_fptl"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".stag_fptl"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".remorque"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".rapport_txt"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".date_appel"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".date_depart"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".date_fin"
-            fonctions.delete_file(file_tmp)
-
-            for i in range(0, 12):
-                file_tmp = path_to_vars + '/' + ".spv_caserne_comboBox_13-" + str(i)
-                fonctions.delete_file(file_tmp)
-                file_tmp = path_to_vars + '/' + ".spv_caserne_comboBox_14-" + str(i)
-                fonctions.delete_file(file_tmp)
-                file_tmp = path_to_vars + '/' + ".spv_sll_comboBox_12-" + str(i)
-                fonctions.delete_file(file_tmp)
-                file_tmp = path_to_vars + '/' + ".spv_sll_comboBox_15-" + str(i)
-                fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".nCodis"
-            fonctions.delete_file(file_tmp)
-
-            file_tmp = path_to_vars + '/' + ".localisationInter"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".natureInter"
-            fonctions.delete_file(file_tmp)
-            file_tmp = path_to_vars + '/' + ".demandeurInter"
-            fonctions.delete_file(file_tmp)
-            '''
 
             #file = open(file_nombre, 'w')#plus besoin, le nombre est compté directement dans le fichier .dataInters.pglxdi
             #file.write(str(nombre))
@@ -4183,7 +4053,7 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 """
-    Pompier-GLX 3.1.14
+    Pompier-GLX 3.2 Beta
     Copyright (C) 2013-2014  Sydney Rodolphe Torcuato Gems
 
     This program is free software: you can redistribute it and/or modify
