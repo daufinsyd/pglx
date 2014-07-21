@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QDialog
-import os, sys, subprocess
+from PyQt5 import *
+import os, sys, subprocess, random
 import pickle
 import readline
 import linecache # lis les lignes spécifiques de fichier vs pas de global variables dans les class
@@ -16,6 +17,7 @@ path_to_rinter = "/home/Pompiers/Public/Rapports/Interventions/2014" ### sert un
 path_to_rfma = "/home/Pompiers/Public/Rapports/FMA/2014"### sert uniquement pour l'écriture du rapport ###
 path_to_rcasernement = "/home/Pompiers/Public/Rapports/Casernements/2014"### sert uniquement pour l'écriture du rapport ###
 path_to_session = "/home/Pompiers/Public/.tmp/session" ### sert à stocker à travers le temps des variables
+path_to_stats_personnal = "/home/Pompiers/Public/Rapports/Statistiques/Personnels"
 
 if os.path.exists(path_to_pglx) == False:
     subprocess.call(["mkdir", "-p", path_to_pglx])
@@ -110,6 +112,34 @@ NEPSA=0
 NFPTSR=0
 NVSAV=0
 
+#tailles des fenêtres
+xPglxSize = 730
+yPglxSize = 400
+xRapportInterSize = 800
+yRapportInterSize = 600
+xCreateInterSize = 800
+yCreateInterSize = 600
+xCreateOwnSize = 800
+yCreateOwnSize = 600
+xAdministrationSize = 819
+yAdministrationSize = 407
+xCasernementSize = 833
+yCasernementSize = 679
+xFmaSize = 856
+yFmaSize = 467
+xListIntersSize = 727
+yListIntersSize = 472
+xListInterPersonnalSize = 727
+yListInterPersonnalSize = 472
+xDialogAddUserSize = 272
+yDialogAddUserSize = 226
+xDialogRemoveUserSize = 272
+yDialogRemoveUserSize = 226
+
+
+DEBUG = 3
+
+
 
 DELETE_INTER_RITGHS = 100
 userRights = 999
@@ -131,7 +161,7 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self_ui_inter = self
         PompierGLX = self
         PompierGLX.setObjectName("PompierGLX")
-        PompierGLX.resize(730, 564)
+        PompierGLX.resize(xPglxSize, yPglxSize)
         self.centralwidget = QtWidgets.QWidget(PompierGLX)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -161,12 +191,12 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_listeInters.setObjectName("pushButton_listeInters")
         self.gridLayout_2.addWidget(self.pushButton_listeInters, 10, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 155, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 11, 7, 1, 1)
+        self.gridLayout_2.addItem(spacerItem, 2, 5, 1, 1)
         self.pushButton_3 = QtWidgets.QPushButton(self.frame)
         self.pushButton_3.setObjectName("pushButton_3")
         self.gridLayout_2.addWidget(self.pushButton_3, 5, 0, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 21, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem1, 2, 5, 1, 1)
+        self.gridLayout_2.addItem(spacerItem1, 1, 0, 1, 1)
         self.button_close = QtWidgets.QPushButton(self.frame)
         self.button_close.setObjectName("button_close")
         self.gridLayout_2.addWidget(self.button_close, 12, 7, 1, 1)
@@ -193,7 +223,7 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.user.setObjectName("user")
         self.gridLayout_2.addWidget(self.user, 2, 1, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(180, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(spacerItem3, 2, 3, 2, 2)
+        self.gridLayout_2.addItem(spacerItem3, 5, 6, 2, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.frame)
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout_2.addWidget(self.pushButton_2, 4, 0, 1, 1)
@@ -201,14 +231,25 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_5.setObjectName("pushButton_5")
         self.gridLayout_2.addWidget(self.pushButton_5, 8, 0, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 33, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem4, 5, 6, 2, 1)
+        self.gridLayout_2.addItem(spacerItem4, 2, 3, 2, 2)
+
+        self.line_personnal = QtWidgets.QFrame(self.frame)
+        self.line_personnal.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_personnal.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_personnal.setObjectName("line_personnal")
+        self.gridLayout_2.addWidget(self.line_personnal, 11, 0, 1, 1)
+
+        self.pushButton_personnalInter = QtWidgets.QPushButton(self.frame)
+        self.pushButton_personnalInter.setObjectName("pushButton_personnalInter")
+        self.gridLayout_2.addWidget(self.pushButton_personnalInter, 12, 0, 1, 1)
+
         self.line1 = QtWidgets.QFrame(self.frame)
         self.line1.setFrameShape(QtWidgets.QFrame.HLine)
         self.line1.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line1.setObjectName("line1")
         self.gridLayout_2.addWidget(self.line1, 6, 0, 1, 1)
         spacerItem5 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem5, 1, 0, 1, 1)
+        self.gridLayout_2.addItem(spacerItem5, 11, 7, 3, 1)
         self.name = QtWidgets.QLabel(self.frame)
         self.name.setMinimumSize(QtCore.QSize(150, 20))
         self.name.setObjectName("name")
@@ -229,8 +270,8 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
 
 
         #CONNEXIONS
-
         self.new_rapportInter.clicked.connect(lambda selfi = self : fonctions_self.new_rapportInter(self))
+        self.pushButton_personnalInter.clicked.connect(lambda selfi = self:fonctions_self.personnalInters(self))
         self.pushButton_7.clicked.connect(lambda selfi = self :fonctions_self.show_credits(self))
         self.pushButton_8.clicked.connect(lambda selfi = self :fonctions_self.show_license(self))
         self.pushButton_4.clicked.connect(lambda selfi = self :fonctions_self.createInter(self))
@@ -241,6 +282,13 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_listeInters.clicked.connect(lambda selfi = self :fonctions_self.listInters(self))
         self.button_close.clicked.connect(self.close)
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xPglxSize, yPglxSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xPglxSize = size.width()
+        yPglxSize = size.height()
 
     def retranslateUi(self, PompierGLX):
         file = path_to_pglx + '/.centreInter'
@@ -268,6 +316,8 @@ class Ui_PompierGLX(QtWidgets.QMainWindow):
         self.pushButton_2.setText(_translate("PompierGLX", "Rédiger un rapport de FMA"))
         self.pushButton_5.setText(_translate("PompierGLX", "Créer une feuille personnalisée"))
         self.name.setText(_translate("PompierGLX", name_2))
+        self.pushButton_personnalInter.setText(_translate("PompierGLX", "Mes Interventions"))
+
 
     def tmp(self):
         print("rien")
@@ -282,7 +332,7 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         global Ui_rapportInter, NCODISMAX, nbSPVSLL, nbSPVCas, NFPTL, NVTU, NVL
         Ui_rapportInter = self
         Ui_rapportInter.setObjectName("MainWindow")
-        Ui_rapportInter.resize(800, 600)
+        Ui_rapportInter.resize(xRapportInterSize, yRapportInterSize)
         self.centralwidget = QtWidgets.QWidget(Ui_rapportInter)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -302,6 +352,18 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName("gridLayout_3")
+        #typeInter
+        self.comboBox_typeInter = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
+        self.comboBox_typeInter.setMinimumSize(QtCore.QSize(0, 30))
+        self.comboBox_typeInter.setObjectName("comboBox_typeInter")
+        self.gridLayout_3.addWidget(self.comboBox_typeInter, 1, 4, 1, 1)
+
+        fonctions_self.addItem_comboBox(self, self.comboBox_typeInter, 'typesInter')#ajoute le type d'inter
+
+        self.label_typeInter = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_typeInter.setObjectName("label_typeInter")
+        self.gridLayout_3.addWidget(self.label_typeInter, 0, 4, 1, 1)
+
         self.label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_2.setObjectName("label_2")
         self.gridLayout_3.addWidget(self.label_2, 1, 0, 1, 1)
@@ -321,17 +383,6 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
             self.FPTL = QtWidgets.QWidget()
             self.FPTL.setGeometry(QtCore.QRect(0, 0, 667, 93))
             self.FPTL.setObjectName("FPTL" + '-' + str(i))
-            '''
-            self.verticalLayout = QtWidgets.QVBoxLayout(self.FPTL)
-            self.verticalLayout.setObjectName("verticalLayout" + '-' + str(i))
-            self.scrollArea_2 = QtWidgets.QScrollArea(self.FPTL)
-            self.scrollArea_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-            self.scrollArea_2.setWidgetResizable(True)
-            self.scrollArea_2.setObjectName("scrollArea_2" + '-' + str(i))
-            self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-            self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 634, 257))
-            self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2" + '-' + str(i))
-            '''
             self.gridLayout_4 = QtWidgets.QGridLayout(self.FPTL)
             self.gridLayout_4.setObjectName("gridLayout_4" + '-' + str(i))
             self.label_5 = QtWidgets.QLabel(self.FPTL)
@@ -340,49 +391,49 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
             self.comboBox = QtWidgets.QComboBox(self.FPTL)
             self.comboBox.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox.setObjectName("comboBox" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox, 0, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox, 0, 1, 2, 1)
             self.label_6 = QtWidgets.QLabel(self.FPTL)
             self.label_6.setObjectName("label_6" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_6, 1, 0, 1, 1)
             self.comboBox_2 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_2.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_2.setObjectName("comboBox_2" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_2, 1, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_2, 2, 1, 2, 1)
             self.label_7 = QtWidgets.QLabel(self.FPTL)
             self.label_7.setObjectName("label_7" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_7, 2, 0, 1, 1)
             self.comboBox_3 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_3.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_3.setObjectName("comboBox_3" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_3, 2, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_3, 4, 1, 2, 1)
             self.label_8 = QtWidgets.QLabel(self.FPTL)
             self.label_8.setObjectName("label_8" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_8, 3, 0, 1, 1)
             self.comboBox_4 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_4.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_4.setObjectName("comboBox_4" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_4, 3, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_4, 6, 1, 2, 1)
             self.label_9 = QtWidgets.QLabel(self.FPTL)
             self.label_9.setObjectName("label_9" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_9, 4, 0, 1, 1)
             self.comboBox_5 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_5.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_5.setObjectName("comboBox_5" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_5, 4, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_5, 8, 1, 2, 1)
             self.label_10 = QtWidgets.QLabel(self.FPTL)
             self.label_10.setObjectName("label_10" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_10, 5, 0, 1, 1)
             self.comboBox_6 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_6.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_6.setObjectName("comboBox_6" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_6, 5, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_6, 10, 1, 2, 1)
             self.label_11 = QtWidgets.QLabel(self.FPTL)
             self.label_11.setObjectName("label_11" + '-' + str(i))
             self.gridLayout_4.addWidget(self.label_11, 6, 0, 1, 1)
             self.comboBox_7 = QtWidgets.QComboBox(self.FPTL)
             self.comboBox_7.setMinimumSize(QtCore.QSize(0, 32))
             self.comboBox_7.setObjectName("comboBox_7" + '-' + str(i))
-            self.gridLayout_4.addWidget(self.comboBox_7, 6, 1, 1, 1)
+            self.gridLayout_4.addWidget(self.comboBox_7, 12, 1, 1, 1)
             #self.scrollArea_2.setWidget(self.FPTL)
             #self.verticalLayout.addWidget(self.scrollArea_2)
             self.toolBox.addItem(self.FPTL, "")
@@ -421,18 +472,6 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
             self.VTU = QtWidgets.QWidget()
             self.VTU.setGeometry(QtCore.QRect(0, 0, 716, 93))
             self.VTU.setObjectName("VTU" + '-' + str(i))
-            '''
-            self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.VTU)
-            self.verticalLayout_2.setObjectName("verticalLayout_2" + '-' + str(i))
-            self.scrollArea_3 = QtWidgets.QScrollArea(self.VTU)
-            self.scrollArea_3.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-            self.scrollArea_3.setWidgetResizable(True)
-            self.scrollArea_3.setObjectName("scrollArea_3" + '-' + str(i))
-            self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-            self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 683, 184))
-            self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3" + '-' + str(i))
-            '''
-            #self.gridLayout_5 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
             self.gridLayout_5 = QtWidgets.QGridLayout(self.VTU)
             self.gridLayout_5.setObjectName("gridLayout_5" + '-' + str(i))
             self.label_12 = QtWidgets.QLabel(self.VTU)
@@ -498,6 +537,7 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         #VL
         for i in range(1, NVL+1):
             self.VL = QtWidgets.QWidget()
+            self.VL.setGeometry(QtCore.QRect(0, 0, 730, 192))#AJOUTE
             self.VL.setObjectName("VL" + '-' + str(i))
             self.gridLayout_10 = QtWidgets.QGridLayout(self.VL)
             self.gridLayout_10.setObjectName("gridLayout_10" + '-' + str(i))
@@ -563,13 +603,13 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
             self.label_36.setText(_translate("MainWindow", "EQU VL"))
             self.toolBox.setItemText(self.toolBox.indexOf(self.VL), _translate("MainWindow", "VL-" + str(i)))
 
-        self.gridLayout_3.addWidget(self.toolBox, 4, 0, 1, 6)
+        self.gridLayout_3.addWidget(self.toolBox, 10, 0, 1, 6)
         self.lineEdit_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_3.addWidget(self.lineEdit_2, 6, 1, 1, 2)
+        self.gridLayout_3.addWidget(self.lineEdit_2, 3, 4, 1, 1)
         self.label_18 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_18.setObjectName("label_18")
-        self.gridLayout_3.addWidget(self.label_18, 7, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label_18, 4, 3, 1, 1)
         self.dateTimeEdit_3 = QtWidgets.QDateTimeEdit(self.scrollAreaWidgetContents)
         self.dateTimeEdit_3.setObjectName("dateTimeEdit_3")
         self.gridLayout_3.addWidget(self.dateTimeEdit_3, 2, 2, 1, 1)
@@ -578,13 +618,13 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.gridLayout_3.addWidget(self.spinBox, 3, 2, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout_3.addWidget(self.lineEdit_3, 7, 1, 1, 2)
+        self.gridLayout_3.addWidget(self.lineEdit_3, 4, 4, 1, 1)
         self.label_17 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_17.setObjectName("label_17")
-        self.gridLayout_3.addWidget(self.label_17, 6, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label_17, 3, 3, 1, 1)
         self.checkBox_5 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.checkBox_5.setObjectName("checkBox_5")
-        self.gridLayout_3.addWidget(self.checkBox_5, 10, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.checkBox_5, 16, 2, 1, 1)
         self.toolBox_2 = QtWidgets.QToolBox(self.scrollAreaWidgetContents)
         self.toolBox_2.setObjectName("toolBox_2")
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.MinimumExpanding)#Maximum)
@@ -753,7 +793,7 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.lineEdit_15.setObjectName("lineEdit_15")
         self.gridLayout_7.addWidget(self.lineEdit_15, 2, 7, 1, 1)
         self.toolBox_2.addItem(self.page_6, "")
-        self.gridLayout_3.addWidget(self.toolBox_2, 8, 0, 1, 5)
+        self.gridLayout_3.addWidget(self.toolBox_2, 14, 0, 1, 5)
         self.label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_3.setObjectName("label_3")
         self.gridLayout_3.addWidget(self.label_3, 2, 0, 1, 1)
@@ -762,13 +802,13 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.gridLayout_3.addWidget(self.label_4, 3, 0, 1, 1)
         self.checkBox_3 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.checkBox_3.setObjectName("checkBox_3")
-        self.gridLayout_3.addWidget(self.checkBox_3, 10, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.checkBox_3, 16, 1, 1, 1)
         self.dateTimeEdit_2 = QtWidgets.QDateTimeEdit(self.scrollAreaWidgetContents)
         self.dateTimeEdit_2.setObjectName("dateTimeEdit_2")
         self.gridLayout_3.addWidget(self.dateTimeEdit_2, 1, 2, 1, 1)
         self.label_16 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_16.setObjectName("label_16")
-        self.gridLayout_3.addWidget(self.label_16, 5, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.label_16, 2, 3, 1, 1)
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label.setObjectName("label")
         self.gridLayout_3.addWidget(self.label, 0, 0, 1, 1)
@@ -776,30 +816,30 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         self.gridLayout_3.addItem(spacerItem, 0, 3, 1, 1)
         self.textEdit = QtWidgets.QTextEdit(self.scrollAreaWidgetContents)
         self.textEdit.setObjectName("textEdit")
-        self.gridLayout_3.addWidget(self.textEdit, 11, 0, 1, 5)
+        self.gridLayout_3.addWidget(self.textEdit, 17, 0, 1, 5)
         self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_3.addWidget(self.lineEdit, 5, 1, 1, 3)
+        self.gridLayout_3.addWidget(self.lineEdit, 2, 4, 1, 1)
         self.checkBox_6 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.checkBox_6.setObjectName("checkBox_6")
-        self.gridLayout_3.addWidget(self.checkBox_6, 10, 4, 1, 1)
+        self.gridLayout_3.addWidget(self.checkBox_6, 16, 4, 1, 1)
         self.checkBox_4 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.checkBox_4.setObjectName("checkBox_4")
-        self.gridLayout_3.addWidget(self.checkBox_4, 10, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.checkBox_4, 16, 3, 1, 1)
         self.checkBox_2 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.checkBox_2.setObjectName("checkBox_2")
-        self.gridLayout_3.addWidget(self.checkBox_2, 10, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.checkBox_2, 16, 0, 1, 1)
         self.line = QtWidgets.QFrame(self.scrollAreaWidgetContents)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        self.gridLayout_3.addWidget(self.line, 9, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.line, 15, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton.setObjectName("pushButton")
-        self.gridLayout_3.addWidget(self.pushButton, 12, 4, 1, 1)
+        self.gridLayout_3.addWidget(self.pushButton, 18, 4, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout_3.addWidget(self.pushButton_2, 12, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.pushButton_2, 18, 3, 1, 1)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout_2.addWidget(self.scrollArea, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
@@ -874,11 +914,18 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
 
         #dû à la boucle for, les spv sll et caserne sont connectés et générés directement lors de la création de combobox
 
+        self.comboBox_typeInter.currentTextChanged.connect(lambda value = self.comboBox_typeInter, name="typeInter": fonctions_self.on_combobox_changed(self, value, name))
 
         self.pushButton.clicked.connect(lambda self_new_rapport = self : fonctions.rediger(self_new_rapport))
         self.pushButton_2.clicked.connect(lambda self_win_to_show = self : fonctions_self.close_window(self, ""))
 
-
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xRapportInterSize, yRapportInterSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xRapportInterSize = size.width()
+        yRapportInterSize = size.height()
 
     def retranslateUi(self, Ui_rapportInter):
         global path_to_rinter, path_to_vars, path_to_rfma, path_to_pglx
@@ -900,6 +947,7 @@ class Ui_rapportInter(QtWidgets.QMainWindow):
         print("Numéro Intervention:", nbInter)
 
         Ui_rapportInter.setWindowTitle(_translate("MainWindow", "PGLX - Rapport d\'intervention N°" + str(nbInter)))
+        self.label_typeInter.setText(_translate("MainWindow", "Type d\'intervention"))
         self.label_2.setText(_translate("MainWindow", "Heur de départ"))
         self.label_18.setText(_translate("MainWindow", "Demandeur"))
         self.label_17.setText(_translate("MainWindow", "Localisation"))
@@ -952,7 +1000,7 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         global b, b2
         Ui_create_inter = self
         Ui_create_inter.setObjectName("Ui_create_inter")
-        Ui_create_inter.resize(800, 600)
+        Ui_create_inter.resize(xCreateInterSize, yCreateInterSize)
         self.centralwidget = QtWidgets.QWidget(Ui_create_inter)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
@@ -1212,6 +1260,14 @@ class Ui_create_inter(QtWidgets.QMainWindow):
         self.buttonBox.accepted.connect(lambda selfi = self : fonctions.create_inter(selfi))
         self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xCreateInterSize, yCreateInterSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xCreateInterSize = size.width()
+        yCreateInterSize = size.height()
+
     def retranslateUi(self, Ui_create_inter):
         _translate = QtCore.QCoreApplication.translate
         Ui_create_inter.setWindowTitle(_translate("Ui_create_inter", "Pompier-GLX - Créer une intervention"))
@@ -1244,7 +1300,7 @@ class Ui_create_own(QtWidgets.QMainWindow):
     def suite(self):
         create_own = self
         create_own.setObjectName("create_own")
-        create_own.resize(800, 600)
+        create_own.resize(xCreateOwnSize, yCreateOwnSize)
         self.centralwidget = QtWidgets.QWidget(create_own)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -1309,6 +1365,14 @@ class Ui_create_own(QtWidgets.QMainWindow):
         self.actionOuvrir.triggered.connect(lambda selfi = self : fonctions_self.load_to_file(self))
         self.textEdit.textChanged.connect(lambda value = self.textEdit : fonctions_self.on_textEdit_changed(self, value, "ownInter"))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xCreateOwnSize, yCreateOwnSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xCreateOwnSize = size.width()
+        yCreateOwnSize = size.height()
+
     def retranslateUi(self, create_own):
         _translate = QtCore.QCoreApplication.translate
         create_own.setWindowTitle(_translate("create_own", "PGLX - Créer une feuille personnalisée"))
@@ -1328,7 +1392,7 @@ class Ui_Administration(QtWidgets.QMainWindow):
         global nbSPVSLL, nbSPVSLL
         Administration = self
         Administration.setObjectName("Administration")
-        Administration.resize(819, 407)
+        Administration.resize(xAdministrationSize, yAdministrationSize)
         self.centralwidget = QtWidgets.QWidget(Administration)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -1551,6 +1615,14 @@ class Ui_Administration(QtWidgets.QMainWindow):
         self.spinBox_nbVSAV.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NVSAV": fonctions.on_nbSpinbox_changed(NVSAV, value, name))
         self.spinBox_nbVTU.valueChanged.connect(lambda value=self.spinBox_nbSPVSLL, name = "NVTU": fonctions.on_nbSpinbox_changed(NVTU, value, name))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xAdministrationSize, yAdministrationSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xAdministrationSize = size.width()
+        yAdministrationSize = size.height()
+
     def retranslateUi(self, Administration):
         _translate = QtCore.QCoreApplication.translate
         self.label.setText(_translate("Administration", "Administration de PGLX"))
@@ -1584,7 +1656,7 @@ class Ui_Casernement(QtWidgets.QMainWindow):
         global b_casernement
         Casernement = self
         Casernement.setObjectName("Casernement")
-        Casernement.resize(833, 679)
+        Casernement.resize(xCasernementSize, yCasernementSize)
         self.centralwidget = QtWidgets.QWidget(Casernement)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_central = QtWidgets.QGridLayout(self.centralwidget)
@@ -1778,6 +1850,13 @@ class Ui_Casernement(QtWidgets.QMainWindow):
         self.buttonBox.accepted.connect(lambda selfi = self : fonctions.casernement(selfi))
         self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xCasernementSize, yCasernementSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xCasernementSize = size.width()
+        yCasernementSize = size.height()
 
     def retranslateUi(self, Casernement):
         _translate = QtCore.QCoreApplication.translate
@@ -1805,9 +1884,11 @@ class Ui_FMA(QtWidgets.QMainWindow):
         selfi = self
 
     def suite(self):
+        global xFmaSize, yFmaSize
         FMA = self
         FMA.setObjectName("FMA")
-        FMA.resize(856, 467)
+        FMA.resize(xFmaSize, yFmaSize)
+        print('x', xFmaSize)
         self.centralwidgetA = QtWidgets.QWidget(FMA)
         self.centralwidgetA.setObjectName("centralwidgetA")
         self.gridLayout_princiaple = QtWidgets.QGridLayout(self.centralwidgetA)
@@ -2136,15 +2217,22 @@ class Ui_FMA(QtWidgets.QMainWindow):
         self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, path_to_vars, '.date', '.dateDebut', '.dateFin', '.theme_fma'))
         self.buttonBox.rejected.connect(fonctions.fma_delete_files)#supprime les fichiers
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xFmaSize, yFmaSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xFmaSize = size.width()
+        yFmaSize = size.height()
 
     def retranslateUi(self, FMA):
         _translate = QtCore.QCoreApplication.translate
         FMA.setWindowTitle(_translate("FMA", "PGLX - FMA"))
         self.groupBox_info.setTitle(_translate("FMA", "FMA"))
-        self.label.setText(_translate("FMA", "Date de début"))
-        self.label_2.setText(_translate("FMA", "Date de fin"))
+        self.label.setText(_translate("FMA", "Formation"))
+        self.label_2.setText(_translate("FMA", "Date de début"))
         #self.label_4.setText(_translate("FMA", "Date"))#N'est plus utuilisé
-        self.label_3.setText(_translate("FMA", "Heure de fin"))
+        self.label_3.setText(_translate("FMA", "Date de fin"))
         self.label_8.setText(_translate("FMA", "Nombre"))
         self.label_5.setText(_translate("FMA", "Nom"))
         self.label_6.setText(_translate("FMA", "Formation"))
@@ -2172,7 +2260,7 @@ class Ui_ListInters(QtWidgets.QMainWindow):
     def suite(self):
         ListInters = self
         ListInters.setObjectName("ListInters")
-        ListInters.resize(727, 472)
+        ListInters.resize(xListIntersSize, yListIntersSize)
         self.centralwidget = QtWidgets.QWidget(ListInters)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -2245,21 +2333,30 @@ class Ui_ListInters(QtWidgets.QMainWindow):
             aloneidx = entete.index("alone")
             nature = entete.index("nature")
             vehicle = entete.index("vehicles")
+            try:
+                typeInter = entete.index("typeInter")
+            except:
+                pass
 
-            for ligne in range(4, nbInters+1):#le fichier commence avec deux lignes de description
+            for ligne in range(4, nbInters+1):#le fichier commence avec deux lignes de description + une ligne d'entête
                 donnees = linecache.getline(fichier, ligne).rstrip('\n').split(";;")
-                print("AAAAA", ligne, donnees)
-                print("e", donnees[dateidx])
-                item_i = QtWidgets.QTreeWidgetItem()
-                item_i.setText(0, donnees[nbInteridx])#N° inter
-                item_i.setText(1, donnees[dateidx])#date
-                item_i.setText(2, donnees[departureTimeidx])#heure départ
-                item_i.setText(3, donnees[endTimeidx])#heure retour
-                item_i.setText(4, donnees[vehicle])#Moyens
-                item_i.setText(5, donnees[useridx])#rédacteur
-                item_i.setText(6, donnees[aloneidx])#seul ou non ?
-                item_i.setText(7, donnees[nature])#Nature
-                self.treeWidget.addTopLevelItem(item_i)
+                if DEBUG >= 1:
+                    print("donnees", donnees)
+                if donnees[0] != "":
+                    item_i = QtWidgets.QTreeWidgetItem()
+                    item_i.setText(0, donnees[nbInteridx])#N° inter
+                    item_i.setText(1, donnees[dateidx])#date
+                    try:
+                        item_i.setText(2, donnees[typeInter])#Nature
+                    except:
+                        item_i.setText(2, '-')#Nature
+                    item_i.setText(3, donnees[departureTimeidx])#heure départ
+                    item_i.setText(4, donnees[endTimeidx])#heure retour
+                    item_i.setText(5, donnees[vehicle])#Moyens
+                    item_i.setText(6, donnees[useridx])#rédacteur
+                    item_i.setText(7, donnees[aloneidx])#seul ou non ?
+                    item_i.setText(8, donnees[nature])#Nature
+                    self.treeWidget.addTopLevelItem(item_i)
 
         self.retranslateUi(ListInters)
         QtCore.QMetaObject.connectSlotsByName(ListInters)
@@ -2276,9 +2373,16 @@ class Ui_ListInters(QtWidgets.QMainWindow):
         if userRights >= DELETE_INTER_RITGHS:
             self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.on_listInterDelete_clicked(self))
         else:
-            print("Cette action recquière une élévation des privilèges")
+            print("[WW] Cette action recquière une élévation des privilèges")
             self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.DialogPerms(self))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xListIntersSize, yListInterSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xListIntersSize = size.width()
+        yListInterSize = size.height()
 
     def retranslateUi(self, ListInters):
         _translate = QtCore.QCoreApplication.translate
@@ -2286,12 +2390,13 @@ class Ui_ListInters(QtWidgets.QMainWindow):
         self.pushButton.setText(_translate("ListInters", "Ouvrir"))
         self.treeWidget.headerItem().setText(0, _translate("ListInters", "Intervention"))
         self.treeWidget.headerItem().setText(1, _translate("ListInters", "Date"))
-        self.treeWidget.headerItem().setText(2, _translate("ListInters", "Départ"))
-        self.treeWidget.headerItem().setText(3, _translate("ListInters", "Retour"))
-        self.treeWidget.headerItem().setText(4, _translate("ListInters", "Moyens"))
-        self.treeWidget.headerItem().setText(5, _translate("ListInters", "Rédacteur"))
-        self.treeWidget.headerItem().setText(6, _translate("ListInters", "Seul ?"))
-        self.treeWidget.headerItem().setText(7, _translate("ListInters", "Nature ?"))
+        self.treeWidget.headerItem().setText(2, _translate("ListInters", "Type Inter"))
+        self.treeWidget.headerItem().setText(3, _translate("ListInters", "Départ"))
+        self.treeWidget.headerItem().setText(4, _translate("ListInters", "Retour"))
+        self.treeWidget.headerItem().setText(5, _translate("ListInters", "Moyens"))
+        self.treeWidget.headerItem().setText(6, _translate("ListInters", "Rédacteur"))
+        self.treeWidget.headerItem().setText(7, _translate("ListInters", "Seul ?"))
+        self.treeWidget.headerItem().setText(8, _translate("ListInters", "Nature ?"))
         __sortingEnabled = self.treeWidget.isSortingEnabled()
         self.treeWidget.setSortingEnabled(False)
         #self.treeWidget.topLevelItem(0).setText(0, _translate("ListInters", "Nouvel élément"))
@@ -2299,6 +2404,270 @@ class Ui_ListInters(QtWidgets.QMainWindow):
         self.treeWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_delete.setText(_translate("ListInters", "Supprimer"))
         self.pushButton_3.setText(_translate("ListInters", "Imprimer"))
+
+class Ui_ListIntersPersonnal(QtWidgets.QMainWindow):#pas de fichier .ui crée, copié depuis Ui_ListInters
+    '''
+    Cette classe ne devrait être que temporaire et remplacée par des graphiques!
+    '''
+    def __init__(self, parent=None):
+        super(Ui_ListIntersPersonnal, self).__init__(parent)
+        self.suite()
+        global selfi
+        selfi = self
+
+    def suite(self):
+        ListIntersPersonnal = self
+        ListIntersPersonnal.setObjectName("ListIntersPersonnal")
+        ListIntersPersonnal.resize(xListInterPersonnalSize, yListInterPersonnalSize)
+        self.centralwidget = QtWidgets.QWidget(ListIntersPersonnal)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.pushButton = QtWidgets.QPushButton(self.frame)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 1, 0, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.gridLayout_2.addWidget(self.buttonBox, 4, 3, 1, 1)
+        self.treeWidget = QtWidgets.QTreeWidget(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy)
+        self.treeWidget.setObjectName("treeWidget")
+        font = QtGui.QFont()
+        font.setFamily("Liberation Sans")
+        self.treeWidget.headerItem().setFont(1, font)
+        #item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
+        #item_1 = QtWidgets.QTreeWidgetItem(item_0)
+        self.treeWidget.header().setDefaultSectionSize(100)
+        self.gridLayout_2.addWidget(self.treeWidget, 0, 0, 1, 4)
+        self.pushButton_delete = QtWidgets.QPushButton(self.frame)
+        self.pushButton_delete.setObjectName("pushButton_delete")
+        self.gridLayout_2.addWidget(self.pushButton_delete, 1, 2, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem, 1, 3, 1, 1)
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout_2.addWidget(self.pushButton_3, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        ListIntersPersonnal.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(ListIntersPersonnal)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 727, 22))
+        self.menubar.setObjectName("menubar")
+        ListIntersPersonnal.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(ListIntersPersonnal)
+        self.statusbar.setObjectName("statusbar")
+        ListIntersPersonnal.setStatusBar(self.statusbar)
+
+
+
+        #MODIFICATIONS
+        USER = getpass.getuser()
+        USER = fonctions.getRealUserName(USER)
+        if DEBUG >= 3:
+            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaa', USER)
+        fichier = path_to_stats_personnal + '/.' + USER.upper()
+        nbInters = fonctions.nombre_de_ligne(fichier) - 3 #car 3 lignes de ommentaire
+        print('Nombre Inters', nbInters, "Fichier:", fichier)
+
+        fichier = '.' + USER.upper()
+        if fonctions.file_exists(path_to_stats_personnal, fichier):
+            os.chdir(path_to_stats_personnal)
+            entete = linecache.getline(fichier, 3).rstrip('\n').split(";;")
+            print("Entete du fichier", entete)
+
+            nbInteridx = entete.index("nbInter")
+            dateidx = entete.index("date")
+            dureeidx = entete.index("duree")
+            typeInteridx = entete.index('typeInter')
+            vehicle = entete.index("vehicule")
+            fonction = entete.index('fonction')
+            ncodis = entete.index('ncodis')
+            try:
+                typeInter = entete.index("typeInter")
+            except:
+                pass
+
+            for ligne in range(4, nbInters+1):#le fichier commence avec deux lignes de description + une ligne d'entête
+                donnees = linecache.getline(fichier, ligne).rstrip('\n').split(";;")
+
+                item_i = QtWidgets.QTreeWidgetItem()
+                item_i.setText(0, donnees[nbInteridx])#N° inter
+                item_i.setText(1, donnees[dateidx])#date
+                try:
+                    item_i.setText(2, donnees[typeInter])#Nature
+                except:
+                    item_i.setText(2, '-')#Nature
+                item_i.setText(3, donnees[dureeidx])#heure départ
+                item_i.setText(4, donnees[vehicle])#heure retour
+                item_i.setText(5, donnees[fonction])#Moyens
+                item_i.setText(6, donnees[ncodis])#rédacteur
+                self.treeWidget.addTopLevelItem(item_i)
+
+        self.retranslateUi(ListIntersPersonnal)
+        QtCore.QMetaObject.connectSlotsByName(ListIntersPersonnal)
+
+
+        #CONNEXIONS
+        self.pushButton.clicked.connect(lambda selfi = self : fonctions.on_listInterOpen_clicked(selfi))
+        self.treeWidget.currentItemChanged.connect(lambda lineID = self.treeWidget.currentItem() : fonctions.on_listInterPersonnalOpen_clicked(lineID))
+        self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))
+        self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.close_window(selfi, ""))#CAR PAS DE CHANGEMNTS
+
+        userRights = 0
+        DELETE_INTER_RITGHS = 1
+        if userRights >= DELETE_INTER_RITGHS:
+            self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.on_listInterDelete_clicked(self))
+        else:
+            print("Cette action recquière une élévation des privilèges")
+            self.pushButton_delete.clicked.connect(lambda selfi = self, : fonctions_self.DialogPerms(self))
+
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xListInterPersonnalSize, yListInterPersonnalSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xListInterPersonnalSize = size.width()
+        yListInterPersonnalSize = size.height()
+
+    def retranslateUi(self, ListIntersPersonnal):
+        _translate = QtCore.QCoreApplication.translate
+        ListIntersPersonnal.setWindowTitle(_translate("ListIntersPersonnal", "PGLX - Mes Interventions"))
+        self.pushButton.setText(_translate("ListIntersPersonnal", "Ouvrir"))
+        self.treeWidget.headerItem().setText(0, _translate("ListIntersPersonnal", "N° Intervention"))
+        self.treeWidget.headerItem().setText(1, _translate("ListIntersPersonnal", "Date"))
+        self.treeWidget.headerItem().setText(2, _translate("ListIntersPersonnal", "Type Inter"))
+        self.treeWidget.headerItem().setText(3, _translate("ListIntersPersonnal", "Durée"))
+        self.treeWidget.headerItem().setText(4, _translate("ListIntersPersonnal", "Engin"))
+        self.treeWidget.headerItem().setText(5, _translate("ListIntersPersonnal", "Fonction"))
+        self.treeWidget.headerItem().setText(6, _translate("ListIntersPersonnal", "N° CODIS"))
+        __sortingEnabled = self.treeWidget.isSortingEnabled()
+        self.treeWidget.setSortingEnabled(False)
+        #self.treeWidget.topLevelItem(0).setText(0, _translate("ListInters", "Nouvel élément"))
+        #self.treeWidget.topLevelItem(0).child(0).setText(0, _translate("ListInters", "Nouvel élément"))
+        self.treeWidget.setSortingEnabled(__sortingEnabled)
+        self.pushButton_delete.setText(_translate("ListIntersPersonnal", "Supprimer"))
+        self.pushButton_3.setText(_translate("ListIntersPersonnal", "Imprimer"))
+
+class PersonnalInters_MainWindow(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(PersonnalInters_MainWindow, self).__init__()
+
+        self.widget = Ui_PersonnalInters(self)
+        self.setCentralWidget(self.widget)
+        self.setWindowTitle("Test")
+        self.resize(400,  400)
+
+        self.show()
+
+        print('a')
+
+
+class Ui_PersonnalInters(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super(Ui_PersonnalInters, self).__init__(parent)
+        #self.suite()
+        global selfi
+        selfi = self
+
+        imageSize = QtCore.QSize(200, 200)
+        self.image = QtGui.QImage()
+        self.image = QtGui.QImage(imageSize, QtGui.QImage.Format_RGB32)
+
+    def suite(self):
+        PersonnalInters = self
+        PersonnalInters.setObjectName("PersonnalInters")
+        PersonnalInters.resize(829, 606)
+        self.centralwidget = QtWidgets.QWidget(PersonnalInters)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.widget = QtWidgets.QWidget(self.frame)
+        self.widget.setMinimumSize(QtCore.QSize(200, 200))
+        self.widget.setObjectName("widget")
+        self.gridLayout_2.addWidget(self.widget, 1, 0, 1, 1)
+        self.label_sessionPerso = QtWidgets.QLabel(self.frame)
+        self.label_sessionPerso.setObjectName("label_sessionPerso")
+        self.gridLayout_2.addWidget(self.label_sessionPerso, 0, 0, 1, 1)
+        self.label_user = QtWidgets.QLabel(self.frame)
+        self.label_user.setObjectName("label_user")
+        self.gridLayout_2.addWidget(self.label_user, 0, 1, 1, 1)
+        self.frame_2 = QtWidgets.QFrame(self.frame)
+        self.frame_2.setMinimumSize(QtCore.QSize(200, 200))
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.gridLayout_2.addWidget(self.frame_2, 1, 1, 1, 1)
+        self.pushButton = QtWidgets.QPushButton(self.frame)
+        self.pushButton.setMinimumSize(QtCore.QSize(200, 200))
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_2.addWidget(self.pushButton, 2, 1, 1, 1)
+        self.graphicsView = QtWidgets.QGraphicsView(self.frame)
+        self.graphicsView.setMinimumSize(QtCore.QSize(200, 200))
+        self.graphicsView.setObjectName("graphicsView")
+        self.gridLayout_2.addWidget(self.graphicsView, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.frame, 0, 0, 1, 1)
+        PersonnalInters.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(PersonnalInters)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 444, 24))
+        self.menubar.setObjectName("menubar")
+        PersonnalInters.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(PersonnalInters)
+        self.statusbar.setObjectName("statusbar")
+        PersonnalInters.setStatusBar(self.statusbar)
+
+        self.retranslateUi(PersonnalInters)
+        QtCore.QMetaObject.connectSlotsByName(PersonnalInters)
+
+        #modifications:
+        self.gridLayout_2.setviewport(widget)
+
+    def paintEvent(self, event):
+
+        qp = QtGui.QPainter()
+        qp.begin(self.widget)
+        self.drawRectangles(qp)
+        qp.end()
+
+    def drawRectangles(self, qp):
+
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+
+        qp.setPen(color)
+
+        qp.setBrush(QtGui.QColor(200, 0, 0))
+        qp.drawRect(10, 15, 90, 600)
+
+        qp.setBrush(QtGui.QColor(255, 80, 0, 160))
+        qp.drawRect(130, 15, 90, 600)
+
+        qp.setBrush(QtGui.QColor(25, 0, 90, 200))
+        qp.drawRect(250, 15, 90, 600)
+
+    def retranslateUi(self, PersonnalInters):
+        _translate = QtCore.QCoreApplication.translate
+        PersonnalInters.setWindowTitle(_translate("PersonnalInters", "PersonnalInters"))
+        self.label_sessionPerso.setText(_translate("PersonnalInters", "Session personnelle:"))
+        self.label_user.setText(_translate("PersonnalInters", "user"))
+        self.pushButton.setText(_translate("PersonnalInters", "PushButton"))
+
+
 
 
 class Ui_DialogAddUser(QDialog):
@@ -2311,7 +2680,7 @@ class Ui_DialogAddUser(QDialog):
     def suite(self):
         DialogAddUser = self
         DialogAddUser.setObjectName("DialogAddUser")
-        DialogAddUser.resize(272, 226)
+        DialogAddUser.resize(xDialogAddUserSize, yDialogAddUserSize)
         self.gridLayout_2 = QtWidgets.QGridLayout(DialogAddUser)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.dialogAddUser = QtWidgets.QWidget(DialogAddUser)
@@ -2377,6 +2746,14 @@ class Ui_DialogAddUser(QDialog):
         self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.on_adminList_ok(selfi, ".listUser", ".list"))
         self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_adminsWindows(selfi, path_to_vars))
 
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xDialogAddUserSize, yDialogAddUserSize, DEBUG
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xDialogAddUserSize = size.width()
+        yDialogAddUserSize = size.height()
+
     def retranslateUi(self, DialogAddUser):
         _translate = QtCore.QCoreApplication.translate
         DialogAddUser.setWindowTitle(_translate("DialogAddUser", "PGLX - Liste"))
@@ -2395,7 +2772,7 @@ class Ui_DialogRemoveUser(QDialog):
     def suite(self):
         DialogRemoveUser = self
         DialogRemoveUser.setObjectName("DialogRemoveUser")
-        DialogRemoveUser.resize(272, 226)
+        DialogRemoveUser.resize(xDialogRemoveUserSize, yDialogRemoveUserSize)
         self.gridLayout_2 = QtWidgets.QGridLayout(DialogRemoveUser)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.dialogRemoveUser = QtWidgets.QWidget(DialogRemoveUser)
@@ -2460,6 +2837,14 @@ class Ui_DialogRemoveUser(QDialog):
 
         self.buttonBox.accepted.connect(lambda selfi = self : fonctions_self.on_adminListRemove_ok(selfi, ".listUser", ".list"))
         self.buttonBox.rejected.connect(lambda selfi = self : fonctions_self.close_adminsWindows(selfi, path_to_vars))
+
+    def resizeEvent(self, resizeEvent):#garde les dimensions en mémoire (pour la session actuelle)
+        global xDialogRemoveUserSize, yDialogRemoveUserSize
+        size=self.size()
+        if DEBUG >= 1:
+            print("h", size.height(), 'w', size.width())
+        xDialogRemoveUserSize = size.width()
+        yDialogRemoveUserSize = size.height()
 
     def retranslateUi(self, DialogRemoveUser):
         _translate = QtCore.QCoreApplication.translate
@@ -2613,6 +2998,14 @@ class fonctions_self: #Fonctions faisant appel à self
         mySW = Ui_FMA()
         mySW.show()
 
+    def personnalInters(self):
+        global self_ui_personnalInter
+        self_ui_personnalInter = self
+        print("Mes Inters")
+        self.centralwidget.setEnabled(False)
+        mySW = Ui_ListIntersPersonnal()
+        mySW.show()
+
     def listInters(self):
         global self_ui_listInters
         self_ui_listInters = self
@@ -2643,6 +3036,7 @@ class fonctions_self: #Fonctions faisant appel à self
         print("DialogPerms")
         mySW = Ui_PermsError()
         mySW.show()
+
 
     def save_tab(self):
         global i, self_de_la_fenetre
@@ -3006,7 +3400,7 @@ class fonctions_self: #Fonctions faisant appel à self
 
 class fonctions:
     def update_vars():  # met à jour les divers variables (ex: chemins, nom caserne ...)
-        global NCODISMAX, path_to_session, path_to_pglx, path_to_vars, path_to_rinter, path_to_rfma, path_to_rcasernement, b, b2, b3, b_casernement, b_fma_formateur, b_fma_spv, b_fma_vehicules, b_fma_lieux, nbSPVCas, nbSPVSLL, self_ui_inter, NVTU, NVL, NFPTL, NFPTSR, NVSAV, NEPSA
+        global NCODISMAX, path_to_session, path_to_pglx, path_to_vars, path_to_rinter, path_to_rfma, path_to_rcasernement, path_to_stats_personnal, b, b2, b3, b_casernement, b_fma_formateur, b_fma_spv, b_fma_vehicules, b_fma_lieux, nbSPVCas, nbSPVSLL, self_ui_inter, NVTU, NVL, NFPTL, NFPTSR, NVSAV, NEPSA
         print("var update ...")
         path_to_session = "/home/Pompiers/Public/.tmp/session"  ### sert à stocker à travers le temps des variables
         path_to_pglx = "/home/Pompiers/Public/Rapports/Pompier-GLX"  ### Sert unsiquement pour les fichiers py et images ###
@@ -3014,6 +3408,7 @@ class fonctions:
         path_to_rinter = "/home/Pompiers/Public/Rapports/Interventions/2014"  ### sert uniquement pour l'écriture du rapport ###
         path_to_rfma = "/home/Pompiers/Public/Rapports/FMA/2014"  ### sert uniquement pour l'écriture du rapport ###
         path_to_rcasernement = "/home/Pompiers/Public/Rapports/Casernements/2014"  ### sert uniquement pour l'écriture du rapport ###
+        path_to_stats_personnal = "/home/Pompiers/Public/Rapports/Statistiques/Personnels"
 
         os.chdir(path_to_session)
 
@@ -3060,6 +3455,16 @@ class fonctions:
         NFPTSR=fonctions.get_line_int(path_to_session, "NFPTSR", 1, 0)
         NVSAV=fonctions.get_line_int(path_to_session, "NVSAV", 1, 0)
 
+    def messageBox(icon, title, text, detailedtext):
+        #icons| NoIcon:0 | Question:4 | Information:1 | Warning:2 | Critical:3
+        msgBox = QtWidgets.QMessageBox()
+        msgBox.setIcon(icon)
+        msgBox.setWindowTitle(title)
+        msgBox.setText(text)
+        msgBox.setDetailedText(detailedtext)
+        msgBox.addButton(QtWidgets.QPushButton('Continuer'), 1)
+        msgBox.addButton(QtWidgets.QPushButton('Annuler'), 0)
+        status = msgBox.exec_()
 
     def on_nbSpinbox_changed(var, value, name):  #change la valeur d'une variable
         var = value
@@ -3100,20 +3505,142 @@ class fonctions:
     def on_treeListItemInters_clicked(lineID):
         global listInterNum
         listInterNum = lineID.text(0) #renvoi la valeur en texte de la colonne 0 de la ligne lineID de treeWidget
+        listInterNum = int(listInterNum) + 3 #le fichier comprend 2 lignes de description + 1 ligne d'entete (l'intervention 1 sera sur la ligne 1+3=4)
 
     def on_listInterOpen_clicked(self):
         global listInterNum
         print("visionnage de l'intervention N°", listInterNum)
         os.chdir(path_to_rinter)
 
-        fileToOpen = fonctions.get_line_alpha(path_to_rinter, '.dataInters.pglxdi', int(listInterNum), "!A")
+        fileToOpen = fonctions.get_line_alpha(path_to_rinter, '.dataInters.pglxdi', int(listInterNum), "!A")#cherche la ligne listInterNum
+
+        if fileToOpen == "!A":
+            print("PAS DE FICHIER ARRET")
+        else:#prendre le nom du fichier à ouvrir depuis la ligne et l'ouvrir
+            fileToOpen = fileToOpen.split(';;')
+            fileToOpen = fileToOpen[1] #nom du fichier
+            subprocess.call(["xdg-open", fileToOpen])
+
+    def on_listInterPersonnalOpen_clicked(lineID):
+        print("visionnage de l'intervention N°")
+        #recherche de l'id de l'inter (ncodis)
+        os.chdir(path_to_stats_personnal)
+
+        #recherche de la ligne séletionnée lineID
+        lineID = int(lineID.text(0)) #car 3 lignes de description
+
+
+        USER = getpass.getuser()
+        USER = fonctions.getRealUserName(USER)
+        USER = USER.upper()
+        file = '.' + str(USER)
+        fileToOpen = fonctions.get_line_alpha(path_to_stats_personnal, file, 3, "!A")#cherche la ligne listInterNum
 
         if fileToOpen == "!A":
             print("PAS DE FICHIER ARRET")
         else:
-            fileToOpen = fileToOpen.split(';;')
-            fileToOpen = fileToOpen[1] #nom du fichier
-            subprocess.call(["xdg-open", fileToOpen])
+            print("Dans le fichier", file, 'lineID', lineID)
+            #chercher la colonne ayant ncodis
+            entete = linecache.getline(file, 3)
+            entete = entete.rstrip('\n').split(';;')
+            nbInter = entete.index('nbInter')
+
+            #rechercher de la ligne contenant le même numéro d'inter (lineID)
+            lineno = 4
+            entete = linecache.getline(file, lineno)
+            entete = entete.rstrip('\n').split(';;')
+            print('CCCCC', nbInter,'lineID', lineID, entete)
+            id = entete[nbInter]
+
+            verif = 1000
+
+            while int(id) != int(lineID) and verif != 0:
+                lineno += 1
+                verif -= 1
+                entete = linecache.getline(file, lineno)
+                entete = entete.rstrip('\n').split(';;')
+                print('CCCCC', nbInter, 'lineID', lineID, entete)
+                try:
+                    id = entete[nbInter]
+                    print('XXX', id)
+                except:
+                    print('[EE] error in entete[nbInter-1]')
+
+            if verif == 0:
+                print('[WW] arrêt de la boucle car le compteur de vérification est devenu faux')
+            print('ligne à chercher:', id)
+
+            #Recherche de ncodis dans la ligne id
+            entete = linecache.getline(file, 3)
+            entete = entete.rstrip('\n').split(';;')
+            codis = entete.index('ncodis')
+            print('codis', codis)
+            entete = linecache.getline(file, lineno)
+            entete = entete.rstrip('\n').split(';;')
+            ncodis = entete[codis]
+            print('ncodis (id):', ncodis)
+            id = ncodis
+
+        #recherche du nom du rapport grâce à l'id (ncodis) trouvé
+
+
+        os.chdir(path_to_rinter)
+        file = '.dataInters.pglxdi'
+        fileToOpen = fonctions.get_line_alpha(path_to_rinter, file, 3, "!A")#cherche la ligne listInterNum
+
+        if fileToOpen == "!A":
+            print("PAS DE FICHIER ARRET")
+        else:
+            entete = fileToOpen.rstrip('\n').split(";;")
+            ncodis = entete.index("ncodis")
+            line = 4
+            donnees = linecache.getline(file, line)
+            donnees = donnees.rstrip('\n').split(";;")
+            print('recherche de id =', id)
+            verif = 2000#nombre de lignes à vérifier avant d'arrête la boucle
+            try:
+                d = donnees[ncodis]
+            except:
+                print('[WW] la ligne d\'intervention a été rédigée avec une version antérieur >> pas le même nombre de colonne \n'
+                      'la ligne ne sera pas prise en compte et peut empêcher le programme d\'effectuer l\'action demandée')
+                d = -1#rend la ligne actuelle fausse
+
+            loopPrevent = 0
+            loop = 6
+            while int(d) != int(id) and verif != 0 and loopPrevent < loop:#si 6 lignes de suites ne sont vides arrêt de la boucle
+                verif -= 1
+                line += 1
+                donnees = linecache.getline(file, line)
+                donnees = donnees.rstrip('\n').split(";;")
+                try:
+                    print('ncodis:', donnees[ncodis], 'verif', verif)
+                    d = donnees[ncodis]
+                    loopPrevent = 0
+                except:
+                    print('[WW] la ligne d\'intervention a été rédigée avec une version antérieur >> pas le même nombre de colonne \n'
+                      'la ligne ne sera pas prise en compte et peut empêcher le programme d\'effectuer l\'action demandée')
+                    d = -1
+                    if donnees[0] == '':#si 6 lignes de suites ne sont vides arrêt de la boucle
+                        loopPrevent += 1
+                    else:
+                        loopPrevent = 0
+
+
+            if loopPrevent >= loop:
+                print('[WW] Arrêt de la boucle car le nombre maximal de ligne vide a été atteinte (' + str(loop) + ')')
+                fonctions.messageBox(2,'Erreur', 'Arrêt de la boucle car le nombre maximal de ligne vide a été atteinte (' + str(loop) + ')', 'le nombre de tour peut être défini dans les options \n le fichier ne sera pas ouvert')
+            elif verif == 0:
+                print('[WW] la boucle s\'est arrêté car ncodis n\'a pas été trouvé dans les \a lignes définies par verif')
+                fonctions.messageBox(2,'Erreur', 'la boucle s\'est arrêté car ncodis n\'a pas été trouvé dans les \a lignes définies par verif', 'le nombre de vérification peut être défini dans les options \n le fichier ne sera pas ouvert')
+
+            else:
+                line = linecache.getline(file, line)
+                line = line.rstrip('\n').split(';;')
+                name = entete.index('name')
+                name = line[name]
+                print("Nom du rapport", name)
+
+                subprocess.call(["xdg-open", name])
 
 
     def file_is_int(path_to_file, file, line):  #regarde si un fichier existe et si son contenu à la ligne line est un entier: renvoi 1 si true et 0 si false
@@ -3137,11 +3664,13 @@ class fonctions:
                 else:
                     var = 0
 
-        print("Int ?", file, var)
+        if DEBUG >= 3:
+            print("Int ?", file, var)
         return var
 
     def file_exists(path_to_file, file):  #regarde si un fichier existe et si son contenu (1ère ligne) est un entier
-        print("File ?", file, os.path.isfile(path_to_file + '/' + file))
+        if DEBUG >= 3:
+            print("File ?", file, os.path.isfile(path_to_file + '/' + file))
         return os.path.isfile(path_to_file + '/' + file)
 
 
@@ -3279,7 +3808,7 @@ class fonctions:
         global path_to_rfma
         print("Création du rapport de FMA en cours ...")
         print("Récupération des variables dans les fichiers")
-        date = fonctions.get_line_alpha(path_to_vars, ".date", 1, 'Intemporel')
+        themeFma = fonctions.get_line_alpha(path_to_vars, ".theme_fma", 1, 'Pas de thème particulier')
         dateDebut = fonctions.get_line_alpha(path_to_vars, ".dateDebut", 1, "Intemporel")
         dateFin = fonctions.get_line_alpha(path_to_vars, ".dateFin", 1, "!Intemporel")
         theme = fonctions.get_line_alpha(path_to_vars, ".theme", 1, "!Pas de thème indiqué")
@@ -3293,9 +3822,9 @@ class fonctions:
             centre = str(fonctions.get_line_alpha(path_to_vars, ".formateurCentre-" + str(i), 1, ""))
             if formateur != "!A":  #si le personnel est renseigné
                 if centre == "!A":  #si pas de centre renseigneé, mettre aucun
-                    formateurs.append([formateur, formation, " AUCUN "])
+                    formateurs.append(str(formateur) + ' ' + str(formation) + " AUCUN ")
                 else:
-                    formateurs.append([formateur, formation, centre])
+                    formateurs.append(str(formateur) + ' ' + str(formation) + ' ' + str(centre))
 
         print("Formateurs:", formateurs)
 
@@ -3306,9 +3835,9 @@ class fonctions:
             centre = str(fonctions.get_line_alpha(path_to_vars, ".spvCentre-" + str(i), 1, ""))
             if spv != "!A":  #si le personnel est renseigné
                 if centre == "!A":  #si pas de centre renseigneé, mettre aucun
-                    personnel.append([spv, formation, " AUCUN "])
+                    personnel.append(str(spv).rstrip('\n') + ' ' + str(formation).rstrip('\n') + " AUCUN ")
                 else:
-                    personnel.append([spv, formation, centre])
+                    personnel.append(str(spv).rstrip('\n') + ' ' + str(formation).rstrip('\n') + ' ' + str(centre).rstrip('\n'))
 
         print("Personnels formés:", personnel)
 
@@ -3320,18 +3849,19 @@ class fonctions:
             if vehicule != "!A":  #si le personnel est renseigné
                 if centre == "!A":  #si pas de centre renseigné, mettre aucun
                     if autre == "!A":
-                        vehicules.append([vehicule, " AUCUN ", "RAS"])
+                        vehicules.append(str(vehicule).rstrip('\n') + " AUCUN " + "RAS")
                     else:
-                        vehicules.append([vehicule, " AUCUN ", autre])
+                        vehicules.append(str(vehicule).rstrip('\n') + " AUCUN " + str(autre).rstrip('\n'))
                 else:
-                    vehicules.append([vehicule, centre, autre])
+                    vehicules.append(str(vehicule).rstrip('\n') + ' ' + str(centre).rstrip('\n') + ' ' + str(autre).rstrip('\n'))
 
         print("Véhicules:", vehicules)
 
         lieux = []
         for i in range(0, b_fma_lieux):
             lieu = str(fonctions.get_line_alpha(path_to_vars, ".lieu-" + str(i), 1, "!Pas de lieu indiqué"))
-            lieux.append([lieu])
+            lieu = lieu.rstrip('\n')
+            lieux.append(lieu)
 
         print("Lieu(x) de formation:", lieux)
 
@@ -3346,26 +3876,50 @@ class fonctions:
 
         name = "Rapport-FMA-" + str(datetime.datetime.now())
 
-        personnel = '\n'.join(map(str, personnel))  # permet de faire un retour à la ligne lors d'une nouvelle entitée
-        formateurs = '\n'.join(map(str, formateurs))
-        vehicules = '\n'.join(map(str, vehicules))
-        lieux = '\n'.join(map(str, lieux))
+        personnel = '\n'.join(personnel)
+        formateurs = '\n'.join(formateurs)
+        vehicules = "\n".join(vehicules)
+        lieux = "\n".join(lieux)
+
 
         vehicules = vehicules.strip('[]')
 
-        print("AAAAAA", vehicules, '\n', "CCCCCC", vehicules)  # {DEL}
-        fonctions.write_function(path_to_rfma, name, "RAPPORT FMA", '\n', starLine, '\n', "Date: ", date, '\n',
-                                 "Heure de début: ", dateDebut, " Heure de fin:", dateFin, '\n', dashLine, '\n',
+        if DEBUG >= 3:
+            print("AAAAAA", vehicules, '\n', "CCCCCC", vehicules)  # {DEL}
+        fonctions.write_function(path_to_rfma, name, "RAPPORT FMA", '\n', starLine, '\n', "Formation: ", themeFma, '\n',
+                                 "Date de début: ", dateDebut, " Date de fin:", dateFin, '\n', dashLine, '\n',
                                  "FORMATTEURS:", '\n', formateurs, '\n', dashLine, '\n', "SPV Formés:", '\n', personnel,
                                  '\n', dashLine, '\n', "Véhicules:", '\n', vehicules, '\n', dashLine, '\n', "Lieu(x):",
                                  '\n', lieux, '\n', starLine, '\n', "RAPPORT:", '\n', rapport)
 
         fonctions.fma_delete_files()  #supprime les fichiers, est utilisé car lors de la fermeture de FMA en cancel il faut également effacer les même fichiers.
 
+        os.chdir(path_to_rfma)
+
+        user = getpass.getuser()
+
+        lieu = ""
+        for i in lieux:
+            if i != '\n':
+                lieu += str(i)
+            elif i == '\n':
+                lieu += " : "
+
+        data = "0" + ";;" + str(name).rstrip('\n') + ';;' + str(dateDebut).rstrip('\n') + ';;' + str(dateFin).rstrip('\n') + ';;' +  str(user).rstrip('\n') + ';;' + str(themeFma).rstrip('\n') + ';;' + str(lieu).rstrip('\n')
+        if fonctions.file_exists(path_to_rfma, '.dataFma.pglxdf'):
+            file = open(".dataFma.pglxdf", 'a')
+            file.write('\n')
+            file.write(data)
+            file.close()
+        else:
+            file = open(".dataFma.pglxdf", 'w')
+            file.write("#PGLX DATA FMA" + '\n' + "#version;;0.5" + '\n' + "nbFma;;name;;dateDebut;;dateFin;;user;;themeFma;;lieux".rstrip('\n') + '\n')
+            file.write(data)
+            file.close()
 
     def fma_delete_files():
         os.chdir(path_to_vars)
-        fonctions.delete_all_file(path_to_vars, '.date', '.heureDebut', '.heureFin', '.theme', '.rapport_fma')
+        fonctions.delete_all_file(path_to_vars, '.theme_fma', '.heureDebut', '.heureFin', '.theme', '.rapport_fma')
         for i in range(0, b_fma_formateur):
             fonctions.delete_all_file(path_to_vars, '.formateurNom-' + str(i), ".formateurFormation-" + str(i),
                                       ".formateurCentre-" + str(i), '.lieu-' + str(i))
@@ -3375,6 +3929,26 @@ class fonctions:
             fonctions.delete_all_file(path_to_vars, '.vehicule-' + str(i), ".vehiculeCentre-" + str(i),
                                       ".vehiculeAutre-" + str(i))
 
+
+    def getRealUserName(user):
+
+        line = fonctions.read_file(path_to_pglx, '.dicoNames', "}", "!A")
+        if line != '!A':
+            line = line.rstrip('\n').split('}')#crée une liste des lignes
+            line = "".join(line)#regroupe toutes les lignes sur une seule
+            line = line.split(';;')#sépare les éléments de la ligne unique
+
+            if DEBUG >= 3:
+                print("getRealUserName", line)
+            userName = line.index(user)
+            userName = line[userName]
+            realName = line.index(user)#le vrai nom est positionné juste avant le nom système
+            realName = line[realName-1]
+            print('user', user, 'username:', userName, 'realname', realName)
+        else:
+            realName = "pglx"
+            print("[WW] pas de fichier .dicoNames trouvé")
+        return realName
 
     def write_function(path, name, *args, **keywords):
         os.chdir(path)
@@ -3390,7 +3964,8 @@ class fonctions:
         line = ""
         for i in range(0, length):
             line += str(symbol)
-        print(line)
+        if DEBUG >= 1:
+            print("create_line", line)
         return line
 
 
@@ -3399,10 +3974,12 @@ class fonctions:
         if os.path.isfile(fichier):
             linecache.clearcache()
             value = linecache.getline(fichier, line)
-            print("Valeur pour", fichier, value)
+            if DEBUG >= 2:
+                print("Valeur pour", fichier, value)
             return value
         else:
-            print("!A pas de fichier correcte pour", fichier)
+            if DEBUG >= 2:
+                print("!A pas de fichier correcte pour", fichier)
             return exceptSring
 
 
@@ -3411,13 +3988,16 @@ class fonctions:
         if os.path.isfile(fichier):
             value = linecache.getline(fichier, line)
             if value.isdigit():
-                print("Valeur pour ", fichier, ":", value)
+                if DEBUG >= 2:
+                    print("Valeur pour ", fichier, ":", value)
                 return value
             else:
-                print("Valeur pour ", fichier, ": 0")
+                if DEBUG >= 2:
+                    print("Valeur pour ", fichier, ": 0")
                 return 0
         else:
-            print("Valeur pour ", fichier, ": 0")
+            if DEBUG >= 2:
+                print("Valeur pour ", fichier, ": 0")
             return 0
 
     def get_line_int(path, fichier, line, exceptNumber): #renvoi la valeur de la ligne et exceptNumber si la ligne n'est pas conforme ou n'existe pas
@@ -3427,6 +4007,28 @@ class fonctions:
             return int(linecache.getline(fichier, line))
         else:
             return exceptNumber
+
+    def read_file(path, file, replaceStrip, exceptString):#renvoi toutes les lignes d'un fichier, séparées par replaceStrip, si pas de ligne ou pas de fichier renvoi except string
+        if DEBUG >= 2:
+            print('lecture du fichier', path, file)
+        if fonctions.file_exists(path, file):
+            nbLignes = fonctions.nombreLigne(path, file)
+            fileText = ""
+            if DEBUG >= 3:
+                print('Nb Lignes =', nbLignes)
+            for i in range(1, nbLignes+1):
+                line = fonctions.get_line_alpha(path, file, i, "")
+                try:
+                    line = line.split("\n")
+                    line = replaceStrip.join(line)
+                    fileText += line
+                except:
+                    print('Erreur fatale!')
+            if DEBUG >= 1:
+                print("Fichier text:", file, "=", fileText)
+        else:
+            fileText = exceptString
+        return fileText
 
     def rediger(self_new_rapport):
         #ATTENTION LES RAPPORTS DE CASERNEMENT sont traités dans fonctions.casernement
@@ -3438,10 +4040,10 @@ class fonctions:
 
         os.chdir(path_to_rinter)  #n° inter
 
-        #file_nombre = '.nbInter'
-        #nombre = fonctions.get_line_int(path_to_rinter, file_nombre, 1, 0) + 1
+
+
         file = '.dataInters.pglxdi'
-        nombre = fonctions.nombre_de_ligne('.dataInters.pglxdi') + -2 #car il y a 3 lignes de description dans le fichier
+        nombre = fonctions.nombreDeLigne(path_to_rinter, '.dataInters.pglxdi') + -2 #car il y a 3 lignes de description dans le fichier
         print('Intervention N°:', nombre)
 
         filesToDelete=[]
@@ -3452,11 +4054,14 @@ class fonctions:
         heure_depart = linecache.getline('.date_depart', 1)
         heure_fin = linecache.getline('.date_fin', 1)
         ncodis = linecache.getline('.nCodis', 1)
+        typeInter = fonctions.get_line_alpha(path_to_vars, '.typeInter', 1, "Aucun Type")
+        typeInter = typeInter.rstrip('\n')
 
         filesToDelete.append('.date_appel')
         filesToDelete.append('.date_depart')
         filesToDelete.append('.date_fin')
         filesToDelete.append('.nCodis')
+        filesToDelete.append('.typeInter')
 
         fptl = []
         equipage_fptl = []# contient les équipages de tous les fptl
@@ -3485,18 +4090,25 @@ class fonctions:
             #si la fonction a un personnel, il est ajouté à la liste
             if ca_fptl != "":
                 equipage_fptl.append("CA FPTL-" + str(i) + ": " + str(ca_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ca_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "CA")
             if con_fptl != "":
                 equipage_fptl.append("Conducteur FPTL-" + str(i) + ": " + str(con_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(con_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "Conducteur")
             if ce_fptl != "":
                 equipage_fptl.append("CE BAT FPTL-" + str(i) + ": " + str(ce_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ce_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "CE")
             if ce2_fptl != "":
                 equipage_fptl.append("CE BAL FPTL-" + str(i) + ": " + str(ce2_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ce2_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "CE")
             if equ_fptl != "":
                 equipage_fptl.append("EQU BAT FPRL-" + str(i) + ": " + str(equ_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(equ_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "EQU")
             if equ2_fptl != "":
                 equipage_fptl.append("EQU BAT FPTL-" + str(i) + ": " + str(equ2_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(equ2_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "EQU")
             if stag_fptl != "":
                 equipage_fptl.append("Stagiaire FPTL-" + str(i) + ": " + str(stag_fptl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(stag_fptl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "FPTL", typeInter, "Stagiaire")
 
             equipage_fptl.append('\n')#permet lors de l'écriture d'ajouter un retour à la ligne lors du passage d'un autre véhicule de même catégorie
 
@@ -3526,15 +4138,21 @@ class fonctions:
                 remorque.append(1)
             else:
                 remorque.append(0)
+            if DEBUG >= 3:
+                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", remorque)#//TODO: remove
 
             if ca_vtu != "":
                 equipage_vtu.append("CA VTU-" + str(i) + ": " + str(ca_vtu).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ca_vtu).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VTU", typeInter, "CA")
             if con_vtu != "":
                 equipage_vtu.append("Conducteur VTU-" + str(i) + ": " + str(con_vtu).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(con_vtu).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VTU", typeInter, "Conducteur")
             if ce_vtu != "":
                 equipage_vtu.append("EQU VTU-" + str(i) + ": " + str(ce_vtu).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ce_vtu).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VTU", typeInter, "CE")
             if stag_vtu != "":
                 equipage_vtu.append("Stagiaire VTU-" + str(i) + ": " + str(stag_vtu).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(stag_vtu).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VTU", typeInter, "Stagiaire")
 
             equipage_vtu.append('\n')#permet lors de l'écriture d'ajouter un retour à la ligne lors du passage d'un autre véhicule de même catégorie
 
@@ -3562,14 +4180,19 @@ class fonctions:
 
             if ca_vl != "":
                 equipage_vl.append("CA VL-" + str(i) + ": " + str(ca_vl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ca_vl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VL", typeInter, "CA")#crée la ficher personnelle du CA //TODO: ADD typeInter
             if con_vl != "":
                 equipage_vl.append("Conducteur VL-" + str(i) + ": " + str(con_vl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(con_vl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VL", typeInter, "Conducteur")#Conducteur
             if ce_vl != "":
                 equipage_vl.append("CE VL-" + str(i) + ": " + str(ce_vl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(ce_vl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VL", typeInter, "CE")#CE
             if equ_vl != "":
                 equipage_vl.append("EQU VL-" + str(i) + ": " + str(equ_vl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(equ_vl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VL", typeInter, "EQU")#EQU
             if stag_vl != "":
                 equipage_vl.append("Stagiaire VL-" + str(i) + ": " + str(stag_vl).rstrip('\n') + ";;")
+                fonctions.createOwnStats(str(stag_vl).rstrip('\n'), nombre, heure_depart, heure_fin, ncodis, "VL", typeInter, "Stagiaire")#Stagiaire
 
             equipage_vl.append('\n')#permet lors de l'écriture d'ajouter un retour à la ligne lors du passage d'un autre véhicule de même catégorie
 
@@ -3585,7 +4208,7 @@ class fonctions:
 
         spv_sll = []
         spv_caserne = []
-        r = 4
+        r = nbSPVCas#//TODO: attention r=nbSpvCas est défini par utilisateur >> r=nbSpvCas et non 4
         for i in range(0, r):
             a = linecache.getline('.spv_sll_comboBox_12-' + str(i), 1)
             if a != "":
@@ -3605,12 +4228,14 @@ class fonctions:
             filesToDelete.append('.spv_caserne_comboBox_13' + '-' + str(i))
             filesToDelete.append('.spv_caserne_comboBox_14' + '-' + str(i))
 
-        spv_sll = " ".join(spv_sll)
+        whitespace = "        "#marge du document
+
+        spv_sll = whitespace.join(spv_sll)
         print("SPV SLL", spv_sll)
         if spv_sll == []:
             spv_sll = False
 
-        spv_caserne = " ".join(spv_caserne)
+        spv_caserne = whitespace.join(spv_caserne)
         print("SPV CAS:", spv_caserne)
         if spv_caserne == []:
             spv_caserne = False
@@ -3686,30 +4311,36 @@ class fonctions:
         if os.path.isfile('.renfort_VSAV'):
             vsav_renfort = linecache.getline('.renfort_VSAV', 1)
             ifalone = 0
+            filesToDelete.append('.renfort_VSAV')
         else:
             vsav_renfort = '0'
         if os.path.isfile('.renfort_FPTSR'):
             fptsr_renfort = linecache.getline('.renfort_FPTSR', 1)
             ifalone = 0
+            filesToDelete.append('.renfort_FPTSR')
         else:
             fptsr_renfort = '0'
         if os.path.isfile('.renfort_EPSA'):
             epsa_renfort = linecache.getline('.renfort_EPSA', 1)
             ifalone = 0
+            filesToDelete.append('.renfort_EPSA')
         else:
             epsa_renfort = '0'
         if os.path.isfile('.renfort_VL'):
             vl_renfort = linecache.getline('.renfort_VL', 1)
+            filesToDelete.append('.renfort_VL')
             ifalone = 0
         else:
             vl_renfort = '0'
         if os.path.isfile('.renfort_SMUR'):
             smur_renfort = linecache.getline('.renfort_SMUR', 1)
+            filesToDelete.append('.renfort_SMUR')
             ifalone = 0
         else:
             smur_renfort = '0'
         if os.path.isfile('.renfort_heliSMUR'):
             helismur_renfort = linecache.getline('.renfort_heliSMUR', 1)
+            filesToDelete.append('.renfort_heliSMUR')
             ifalone = 0
         else:
             helismur_renfort = '0'
@@ -3765,9 +4396,9 @@ class fonctions:
 
 
         ligne1 = type_rapport + ': ' + 'N° ' + str(nombre) + '  |  N° CODIS: ' + str(ncodis) + "\n"
-        ligne2 = 'Date d\'appel: ' + str(heure_appel).rstrip('\n') + '\n' + 'Date de départ: ' + str(heure_depart).rstrip('\n') + '\n' + 'Date de retour: ' + str(heure_fin).rstrip('\n') + '\n' + '\n'
+        ligne2 = 'Date d\'appel: ' + str(heure_appel).rstrip('\n') + '\n' + '        Date de départ: ' + str(heure_depart).rstrip('\n') + '\n' + '        Date de retour: ' + str(heure_fin).rstrip('\n') + '\n' + '\n'#espaces mis ici pour la marge car on écrit la ligne qui  comporte des retour à la ligne
         ligne3_bis = "Véhicules: "
-        ligne3 = ""#ligne3 sert à écrire les véhicules dans .dataInters.pglxdi et ne veut donc pas Véhicules
+        ligne3 = ""#ligne3 sert à écrire les véhicules dans .dataInters.pglxdi et ne veut donc pas 'Véhicules'
 
         j=0
         for i in fptl:
@@ -3777,9 +4408,10 @@ class fonctions:
         j=0
         for i in vtu:
             j += 1
+            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", 'i', i, 'vtu', vtu, 'r', r)
             if i != 0:
                 ligne3 += ' VTU-' + str(j)
-            if remorque[i] == 1:
+            if remorque[i-1] == 1:#i-1 car la boucle for i commence à i=1
                 ligne3 += ' & remorque'
         j=0
         for i in vl:
@@ -3792,7 +4424,7 @@ class fonctions:
         ligne4 = 'Nature: ' + str(nature_inter).rstrip('\n') + "\n"
         ligne5 = 'Localisation: ' + str(loc_inter).rstrip('\n') + "\n"
         ligne6 = 'Demandeur: ' + str(demandeur_inter).rstrip('\n') + "\n"
-        ligne7 = '\n>>Sapeur-Pompiers & Fonctions'
+        ligne7 = '>>Sapeur-Pompiers & Fonctions'
 
 
         linecache.clearcache()
@@ -3810,98 +4442,175 @@ class fonctions:
         print("SPV SLL:", ligne17)
 
         if spv_caserne != False:
-            ligne21 = '\n' + "\n>>SPV à la Caserne" + '\n'
+            ligne21 = ">>SPV à la Caserne" + '\n'
             ligne22 = spv_caserne
             print(">>SPV CAS:", ligne21)
         else:
-            ligne21 = '\n' + "Pas de SPV à la Caserne" + '\n'
+            ligne21 = "Pas de SPV à la Caserne" + '\n'
+
+        #whitespace est défini plus haut car utilisé dans spv_cas et spv_sll
+
 
         os.chdir(path_to_vars)  # mène vers le répertoire des variables
         with open('0rapport', 'w') as fichier:
+            fichier.write(whitespace)
             fichier.write(ligne1)
+            fichier.write(whitespace)
             fichier.write(ligne2)
+            fichier.write(whitespace)
             fichier.write(ligne3_bis)
+            fichier.write(whitespace)
             fichier.write(ligne3)
             fichier.write("\n")
+            fichier.write(whitespace)
             fichier.write(ligne4)
+            fichier.write(whitespace)
+            fichier.write(typeInter)
+            fichier.write('\n')
+            fichier.write(whitespace)
             fichier.write(ligne5)
+            fichier.write(whitespace)
             fichier.write(ligne6)
-            fichier.write("\n")
+            fichier.write("\n" + "\n")
+            fichier.write(whitespace)
             fichier.write(ligne7)
 
 
             fichier.write('\n')
             equipage_vl = equipage_vl.split(";;")
             for i in equipage_vl:
+                fichier.write(whitespace)
                 fichier.write(i)
                 fichier.write('\n')
 
             fichier.write('\n')
             equipage_vtu = equipage_vtu.split(";;")
             for i in equipage_vtu:
+                fichier.write(whitespace)
                 fichier.write(i)
                 fichier.write('\n')
 
             fichier.write('\n')
             equipage_fptl = equipage_fptl.split(";;")
             for i in equipage_fptl:
+                fichier.write(whitespace)
                 fichier.write(i)
                 fichier.write('\n')
 
             fichier.write('\n')
 
+            fichier.write(whitespace)
             fichier.write(ligne17)
 
             if spv_sll != False:
+                fichier.write(whitespace)
                 fichier.write(str(ligne18))
 
+            fichier.write('\n \n')
+            fichier.write(whitespace)
             fichier.write(ligne21)
             if spv_caserne != False:
+                fichier.write(whitespace)
                 fichier.write(str(ligne22))
 
-            fichier.write("\n \n>>Véhicules au 1e départ\n")
-            if (vsav_1erDepart[0] != '0') and (vsav_1erDepart != ""):
-                fichier.write("VSAV:" + vsav_1erDepart.rstrip('\n') + '  ' + vsav_1erDepart_txt.rstrip('\n') + '\n')
-            if (fptsr_1erDepart[0] != '0') and (fptsr_1erDepart != ""):
-                fichier.write("FPTSR/FPT:" + fptsr_1erDepart.rstrip('\n') + '  ' + fptsr_1erDepart_txt.rstrip('\n') + '\n')
-            if (epsa_1erDepart[0] != '0') and (epsa_1erDepart != ""):
-                fichier.write("EPSA/EPA:" + epsa_1erDepart.rstrip('\n') + '  ' + epsa_1erDepart_txt.rstrip('\n') + '\n')
-            if (vl_1erDepart[0] != '0') and (vl_1erDepart != ""):
-                fichier.write("VL/VLI:" + vl_1erDepart.rstrip('\n') + '  ' + vl_1erDepart_txt.rstrip('\n') + '\n')
-            if (smur_1erDepart[0] != '0') and (smur_1erDepart != ""):
-                fichier.write("SMUR:" + smur_1erDepart.rstrip('\n') + '  ' + smur_1erDepart_txt.rstrip('\n') + '\n')
-            if (helismur_1erDepart[0] != '0') and (helismur_1erDepart != ""):
-                fichier.write("HéliSMUR:" + helismur_1erDepart.rstrip('\n') + '  ' + helismur_1erDepart_txt.rstrip('\n') + '\n')
+            fichier.write('\n \n')
+            fichier.write(whitespace)
+            fichier.write(">>Véhicules au 1e départ\n")
 
-            fichier.write("\n>>Véhicules en renfort\n")
+            data1erDepart = "" #pour rédiger le fichier data
+            data1erDepartTxt = ""
+
+            if (vsav_1erDepart[0] != '0') and (vsav_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("VSAV:" + vsav_1erDepart.rstrip('\n') + '  ' + vsav_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += vsav_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += vsav_1erDepart_txt.rstrip('\n') + ";;"
+            if (fptsr_1erDepart[0] != '0') and (fptsr_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("FPTSR/FPT:" + fptsr_1erDepart.rstrip('\n') + '  ' + fptsr_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += fptsr_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += fptsr_1erDepart_txt.rstrip('\n') + ";;"
+            if (epsa_1erDepart[0] != '0') and (epsa_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("EPSA/EPA:" + epsa_1erDepart.rstrip('\n') + '  ' + epsa_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += epsa_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += epsa_1erDepart_txt.rstrip('\n') + ";;"
+            if (vl_1erDepart[0] != '0') and (vl_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("VL/VLI:" + vl_1erDepart.rstrip('\n') + '  ' + vl_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += vl_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += vl_1erDepart_txt.rstrip('\n') + ";;"
+            if (smur_1erDepart[0] != '0') and (smur_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("SMUR:" + smur_1erDepart.rstrip('\n') + '  ' + smur_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += smur_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += smur_1erDepart_txt.rstrip('\n') + ";;"
+            if (helismur_1erDepart[0] != '0') and (helismur_1erDepart != ""):
+                fichier.write(whitespace)
+                fichier.write("HéliSMUR:" + helismur_1erDepart.rstrip('\n') + '  ' + helismur_1erDepart_txt.rstrip('\n') + '\n')
+                data1erDepart += helismur_1erDepart.rstrip('\n') + ";;"
+                data1erDepartTxt += helismur_1erDepart_txt.rstrip('\n') + ";;"
+
+            fichier.write('\n')
+            fichier.write(whitespace)
+            fichier.write(">>Véhicules en renfort\n")
+
+            dataRenforts = ""
+            dataRenfortsTxt = ""
+
             if (vsav_renfort[0] != '0') and (vsav_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("VSAV:" + vsav_renfort.rstrip('\n') + '  ' + vsav_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += vsav_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += vsav_renfort_txt.rstrip('\n') + ";;"
             if (fptsr_renfort[0] != '0') and (fptsr_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("FPTSR/FPT:" + fptsr_renfort.rstrip('\n') + '  ' + fptsr_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += fptsr_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += fptsr_renfort_txt.rstrip('\n') + ";;"
             if (epsa_renfort[0] != '0') and (epsa_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("EPSA/EPA:" + epsa_renfort.rstrip('\n') + '  ' + epsa_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += epsa_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += epsa_renfort_txt.rstrip('\n') + ";;"
             if (vl_renfort[0] != '0') and (vl_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("VL/VLI:" + vl_renfort.rstrip('\n') + '  ' + vl_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += vl_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += vl_renfort_txt.rstrip('\n') + ";;"
             if (smur_renfort[0] != '0') and (smur_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("SMUR:" + smur_renfort.rstrip('\n') + '  ' + smur_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += smur_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += smur_renfort_txt.rstrip('\n') + ";;"
             if (helismur_renfort[0] != '0') and (helismur_renfort != ""):
+                fichier.write(whitespace)
                 fichier.write("HéliSMUR:" + helismur_renfort.rstrip('\n') + '  ' + helismur_renfort_txt.rstrip('\n') + '\n')
+                dataRenforts += helismur_renfort.rstrip('\n') + ";;"
+                dataRenfortsTxt += helismur_renfort_txt.rstrip('\n') + ";;"
 
             fichier.write("\n \n")
 
             if gendarmerie != '0':
+                fichier.write(whitespace)
                 fichier.write("Gendarmerie SLL | ")
             if gdf != '0':
+                fichier.write(whitespace)
                 fichier.write("GRDF SLL | ")
             if service_eaux != '0':
+                fichier.write(whitespace)
                 fichier.write("Service des eaux SLL | ")
             if edf != '0':
+                fichier.write(whitespace)
                 fichier.write("ERDF SLL | ")
             if brigade_verte != '0':
+                fichier.write(whitespace)
                 fichier.write("Brigade Verte SLL | ")
 
-            fichier.write('\n')
-            fichier.write('\n' + '>>Rapport de l\'intervention:' + '\n')
+            fichier.write('\n' + '\n')
+            fichier.write(whitespace)
+            fichier.write('>>Rapport de l\'intervention:' + '\n')
+            fichier.write(whitespace)
             fichier.write(ligne_text)
 
             print("Rapport rédigé avec succès !")
@@ -3921,7 +4630,10 @@ class fonctions:
             os.chdir(path_to_rinter)
 
             user = getpass.getuser()
-            data = str(nombre).rstrip('\n') + ';;' + str(name).rstrip('\n') + ';;' + str(datetime.datetime.now()).rstrip('\n') + ';;' + str(heure_appel.rstrip('\n')) + ';;' + str(heure_depart.rstrip('\n')) + ';;' + str(heure_fin.rstrip('\n')) + ';;' + str(user).rstrip('\n') + ';;' + str(ifalone).rstrip('\n') + ";;" + nature_inter.rstrip('\n') + ";;" + ligne3.rstrip('\n')
+            data = str(nombre).rstrip('\n') + ';;' + str(name).rstrip('\n') + ';;' + str(datetime.datetime.now()).rstrip('\n')\
+                   + ';;' + str(heure_appel.rstrip('\n')) + ';;' + str(heure_depart.rstrip('\n')) + ';;' + \
+                   str(heure_fin.rstrip('\n')) + ';;' + str(user).rstrip('\n') + ';;' + str(ifalone).rstrip('\n') + ";;" + \
+                   nature_inter.rstrip('\n') + ";;" + ligne3.rstrip('\n') + ';;' + typeInter + ';;' + str(ncodis)
             if fonctions.file_exists(path_to_rinter, '.dataInters.pglxdi'):
                 file = open(".dataInters.pglxdi", 'a')
                 file.write('\n')
@@ -3929,7 +4641,7 @@ class fonctions:
                 file.close()
             else:
                 file = open(".dataInters.pglxdi", 'a')
-                file.write("#PGLX DATA I" + '\n' + "#version;;0.5" + '\n' + "nbInter;;name;;date;;callTime;;departureTime;;endTime;;user;;alone;;nature;;vehicles".rstrip('\n') + '\n')
+                file.write("#PGLX DATA I" + '\n' + "#version;;0.5" + '\n' + "nbInter;;name;;date;;callTime;;departureTime;;endTime;;user;;alone;;nature;;vehicles;;typeInter;;ncodis".rstrip('\n') + '\n')
                 file.write(data)
                 file.close()
 
@@ -3941,13 +4653,105 @@ class fonctions:
                 fileToDelete = path_to_vars + '/' + str(i)
                 fonctions.delete_file(fileToDelete)
 
+            #REDIGE UNE FICHIER DATA POUR CHAQUE INTERVENTION
+            ligne1 = "inter;;ncodis}{" + str(nombre).rstrip('\n') + ";;" + str(ncodis).rstrip('\n')
+            ligne2 = "dAppel;;dDepart;;dRetour}{" + heure_appel.rstrip('\n') + ";;" + heure_depart.rstrip('\n') + ";;" + heure_fin.rstrip('\n')
+            ligne3 = "vehicules}{" + ";;".join((str(ligne3).rstrip('\n')).split())
+            ligne4 = "nature}{" + str(nature_inter).rstrip('\n')
+            ligne5 = "localisation}{" + str(loc_inter).rstrip('\n')
+            ligne6 = "demandeur}{" + str(demandeur_inter).rstrip('\n')
+            ligne7 = "typeInter}{" + str(typeInter)
 
+            equipage_fptl = ((str(";;".join(equipage_fptl)).rstrip('\n')))
+            equipage_vtu = ((str(";;".join(equipage_vtu)).rstrip('\n')))
+            equipage_vl = ((str(";;".join(equipage_vl)).rstrip('\n')))
 
-            #file = open(file_nombre, 'w')#plus besoin, le nombre est compté directement dans le fichier .dataInters.pglxdi
-            #file.write(str(nombre))
-            #file.close()
+            ligne8 = "spv&fonctions}{" + equipage_fptl + "}{" + equipage_vtu + "}{" + equipage_vl
+            if spv_sll != False:
+                ligne9 = "spvSll}{" + ";;".join((str(spv_sll).rstrip('\n')).split())
+            else:
+                ligne9 = "spvSll}{"
+            if spv_caserne != False:
+                ligne10 = "spvCas}{" + ";;".join((str(spv_caserne).rstrip('\n')).split())
+            else:
+                ligne10 = "spvCas}{"
+            ligne11 = "premDepart}{" + data1erDepart
+            ligne112 = "premDepartTxt}{" + data1erDepartTxt
+            ligne12 = "renfort}{" + dataRenforts
+            ligne122 = "renfortTxt}{" + dataRenfortsTxt
+            ligne13 = "gendarmerie;;GRDF;;ERDF;;brigadeVerte;;serviceDesEaux}{" + gendarmerie.rstrip('\n') + ';;' + gdf.rstrip('\n') + ";;" + edf.rstrip('\n') + ";;" + brigade_verte.rstrip('\n') + ';;' + service_eaux.rstrip('\n')
+            ligne_text = ligne_text.split('\n')
+            ligne_text = ";".join(ligne_text)#remplace les '\n' par ';'
+            ligne14 = "rapport}{" + ligne_text.rstrip('\n')
 
+            name = '.' + name + '.pglxdid' #pglxDataInterDetailed >> ;; sépare les éléments et }{ les groupes d'éléments des valeurs
+            file = open(name, 'w')
+            file.write("# PGLX DATA INTER" + '\n')
+            file.write("#version;;0.5" + '\n')
+            file.write(ligne1 + '\n')
+            file.write(ligne2 + '\n')
+            file.write(ligne3 + '\n')
+            file.write(ligne4 + '\n')
+            file.write(ligne5 + '\n')
+            file.write(ligne6 + '\n')
+            file.write(ligne7 + '\n')
+            file.write(ligne8 + '\n')
+            file.write(ligne9 + '\n')
+            file.write(ligne10 + '\n')
+            file.write(ligne11 + '\n')
+            file.write(ligne112 + '\n')
+            file.write(ligne12 + '\n')
+            file.write(ligne122 + '\n')
+            file.write(ligne13 + '\n')
+            file.write(ligne14 + '\n')
+            file.close()
 
+            global PompierGLX
+            PompierGLX.close()
+            mySW = Ui_PompierGLX()
+            mySW.show()
+
+    def createOwnStats(name, nInter, date_depart, date_fin, ncodis, vehicule, typeInter, fonction):
+        global path_to_stats_personnal, path_to_vars
+        tmp1 = date_depart.split()
+        tmp1 = tmp1[1].split(':')
+        tmp1 = int(tmp1[0]) * 3600 + int(tmp1[1]) * 60
+
+        tmp2 = date_fin.split()
+        tmp2 = tmp2[1].split(':')
+        tmp2 = int(tmp2[0]) * 3600 + int(tmp2[1]) * 60
+
+        tmp3 = date_depart.split()
+        tmp3 = tmp3[1].split('/')
+        tmp4 = date_fin.split()
+        tmp4 = tmp4[1].split('/')
+
+        if tmp3[0] != tmp4[0]:#si les jours sont différents
+            tmp1 -= 24 * 3600#soustraire 24 heures à temps de début | devient ainsi négatif et s'additionne à temp de fin
+
+        duree = tmp2 - tmp1
+
+        name = name.rstrip('\n')
+        name = name.upper()
+
+        os.chdir(path_to_stats_personnal)
+        try:
+            if os.path.isfile('.' + str(name)):
+                fichier = open('.' + str(name), 'a')
+            else:
+                fichier = open('.' + str(name), 'w')
+                fichier.write("#PGLX DATA : personnal stats for: " + str(name) + '\n')
+                fichier.write('version;;0.5' + '\n')
+                fichier.write("nbInter;;name;;date;;duree;;typeInter;;vehicule;;fonction;;ncodis" + '\n')
+
+            fichier.write(str(nInter) + ';;' + str(name) + ';;' + str(date_depart).rstrip('\n') + ';;' +
+                          str(duree).rstrip('\n') + ';;' + str(typeInter).rstrip('\n') + ';;' + str(vehicule).rstrip('\n') +
+                          ';;' + str(fonction).rstrip('\n') + ';;' + str(ncodis).rstrip('\n') + '\n')
+            fichier.close()
+        except:
+            print('error')
+
+        os.chdir(path_to_vars)
 
     def delete_file(file_to_delete):
         subprocess.call(["rm", file_to_delete])
@@ -3975,6 +4779,48 @@ class fonctions:
         else:
             nb_ligne = 0
             print("PAS DE FICHIER !A")
+        return nb_ligne
+
+    def nombreDeLigne(path, fichier):
+        #global nb_ligne
+        os.chdir(path)
+        if os.path.isfile(fichier):
+            liste = open(fichier, 'r')
+            nb_ligne = 0
+            ligne = "test_de_continuation"
+            while ligne != "":
+                ligne = liste.readline()
+                nb_ligne += 1
+                print("nbligne::", nb_ligne, "   ", ligne)
+            liste.close()
+            nb_ligne = nb_ligne - 1
+            print('NB LIGNE a la fin de la fonction', nb_ligne)
+        else:
+            nb_ligne = 0
+            print("PAS DE FICHIER !A")
+        return nb_ligne
+
+    def nombreLigne(path, fichier):
+        if fonctions.file_exists(path, fichier):
+            os.chdir(path)
+            liste = open(fichier, 'r')
+            nb_ligne = 0
+            j=0
+            ligne = liste.readline()
+            while j != 10:#si 10 lignes sont égales à ""
+                nb_ligne += 1
+                if ligne == "":
+                    j += 1
+                else:
+                    j = 0
+                ligne = liste.readline()
+                print("nbligne::", nb_ligne, "   ", ligne)
+            nb_ligne -= j
+            print("Nombre de lignes:", nb_ligne)
+        else:
+            print(path, fichier, "n'est pas un fichier !")
+            nb_ligne = 0
+
         return nb_ligne
 
     def copyto(sourcePath, destPath):#copie sourcePath vers destPath
@@ -4053,7 +4899,7 @@ if __name__ == "__main__":
     sys.exit(app.exec_())
 
 """
-    Pompier-GLX 3.2 Beta
+    Pompier-GLX 3.2.10 Beta
     Copyright (C) 2013-2014  Sydney Rodolphe Torcuato Gems
 
     This program is free software: you can redistribute it and/or modify
