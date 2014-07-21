@@ -1,0 +1,107 @@
+################
+#PGLX v 3.2.10 #
+#changelog     #
+################
+
+3.2.10: 21/07/2014
++fix doesn't delete .renfort_vehicule files which add random renfort_vehicule in rapport
++fix margin for spv_sll and spv_cas
++other bugs fix
++names and user in '.diconame' can be separated by '\n'
++add 'piquet' in TypeInters
+~change nature, loc and demandeur lineEdit location
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3.2.8: 14/07/2014
++création de fichier data pour chaque interventions
++prise en charge (Beta+) des statistique personnelles
++ajout d'un fichier data (.dataFma.pglxdf) pour les fma
++divers corrections de bugs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3.2.6: 10/07/2014
++la taille des fenêtres est gardée en mémoire
++ajout de statistiques personnelles (expérimental)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3.2.2: 05/07/2014
+
++rectification de la liste des inters (ouvre le bon fichier et non le fichier-3)
++correction des labels dates et thème du rapport FMA
++correction du rapport FMA (dates et thème)
++ajout d'une marge pour permettre le rangement dans des classeurs
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2.2: 21/11/2013
+
++rectification des linecaches.clearcache()
++changement des variables path_to_vars/rinter/pglx
++corrections de bugs :
+  écriture des services externes
+  écriture des renforts
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+################################################################
+Old changelog
+################################################################
+
+Alpha
+1.x : console version
+2.x : GUI (Gtk+)
+3.x : GUI (Qt5)
+3.0.4: add FMA support
+
+Beta
+3.1: Beta & auto load values
+3.2: can change number of vehicles
+
+Beta
+3.1 :
+ + add auto reload values when updating cell number (ex: number of vehicles)
+3.1.8:
+ + automaticly open files after creating  FMA/INTER/CASERNEMENT
+ + add blackList and WhiteList
+ + add button to change session path
+ + can change number of SPLSLL and SPVCas from Admin window
+ + clear fonctions.rediger()
+3.1.10:
+ + add Inters list view
+3.1.12:
+ + fix list view for inter
+ + fix redaction style for inter
+ + other bugs fix
+3.1.14:
+ + add VL
+ + fix combobox size
+ + fix fma now auto reload all combobox values
+ + fix fma delete all var files
+ + other bugs fix
+3.1.20:
+ + auto expand verticaly toolBox for Inter
+ + remove second scrollwidget for VTU and FPTL
+ + bugs fix
+
+3.2:
+ + can change the number of vehicles for inter
+ + optimize regiger() function
+3.2.2:
+ + fix remorque
+ + fix label
+ + fix FMA
+ + fix listeInter
+
+3.2.x :
+ + fix administration
+
+
+for other no major versions, see changelog
+
+Final Release
+3.4 :
+ + connection in other session
+ + Printing system
+ + email system

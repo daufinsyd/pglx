@@ -1,0 +1,35 @@
+Pompier-GLX version 3.2.10 Beta
+
+Développeur: Sydney Gems
+
+Language: Python 3 (pyQt5)
+Biblothèque: Qt5
+
+Roadmap (see Roadmap file):
+1.x : console version
+2.x : GUI (Gtk+)
+3.x : GUI (Qt5)
+3.0.4: add FMA support
+3.2: Beta release
+3.4: Stable release
+
+Changelog:
+see changelog file
+
+Description:
+
+Pompier-GLX est un prologiciel de gestion des CIS libre.
+véhicules supportés:
+FPTL (/ VPI)
+VL / VLI / VLHR
+VTU / VTULE
+
+véhicules supportés en version de test:
+VPI
+EPSA / EPA
+FPT
+
+véhicules prévus:
+VLM
+CCF
+MPR
